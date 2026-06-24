@@ -19,7 +19,7 @@
 	<h1 class="gate-card__title">Algo especial te espera</h1>
 	<p class="gate-card__lead">Dejame tu correo y te envio el enlace para abrirlo en la laptop.</p>
 
-	<form id="accesoForm" class="gate-form" method="POST">
+	<form id="accesoForm" class="gate-form">
 		<label for="email">Tu correo</label>
 		<input
 			type="email"
@@ -40,7 +40,9 @@
 <script src="js/google-config.js"></script>
 <script>
 (function () {
+	var ENVIADO_URL = "https://diegovh03.github.io/Biankita/enviado.html";
 	var form = document.getElementById("accesoForm");
+	var input = document.getElementById("email");
 	var status = document.getElementById("accesoStatus");
 	var url = window.GOOGLE_SCRIPT_URL || "";
 	var btn = form.querySelector("button");
@@ -48,15 +50,50 @@
 	if (!url || url.indexOf("/exec") === -1) {
 		status.className = "gate-status gate-status--error";
 		status.innerHTML =
-			"Diego: falta conectar Gmail una vez. Abre <a href='setup.html'>setup.html</a> (5 minutos).";
+			"Falta conectar Gmail. Abre <a href='setup.html'>setup.html</a>.";
 		btn.disabled = true;
 		return;
 	}
 
-	form.action = url;
-	form.addEventListener("submit", function () {
+	form.addEventListener("submit", function (event) {
+		event.preventDefault();
+
+		var email = input.value.trim().toLowerCase();
+
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			status.className = "gate-status gate-status--error";
+			status.textContent = "Escribe un correo valido.";
+			return;
+		}
+
 		btn.disabled = true;
 		btn.textContent = "Enviando…";
+		status.className = "gate-status";
+		status.textContent = "";
+
+		var body = new URLSearchParams();
+		body.append("email", email);
+
+		var done = false;
+
+		function irEnviado() {
+			if (done) {
+				return;
+			}
+			done = true;
+			window.location.href = ENVIADO_URL;
+		}
+
+		fetch(url, {
+			method: "POST",
+			mode: "no-cors",
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			body: body.toString()
+		})
+			.then(irEnviado)
+			.catch(irEnviado);
+
+		setTimeout(irEnviado, 3500);
 	});
 })();
 </script>

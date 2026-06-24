@@ -44,6 +44,7 @@
 		this.running = false;
 		this.onComplete = null;
 		this.onProgress = null;
+		this.completed = false;
 	}
 
 	PuzzleHeart.prototype.setupCanvas = function () {
@@ -180,6 +181,18 @@
 		return leftPieces.concat(rightPieces);
 	};
 
+	PuzzleHeart.prototype.getEstimatedDuration = function () {
+		var pieces = this.pieces.length ? this.pieces : this.buildPieces();
+		var end = 0;
+		var i;
+
+		for (i = 0; i < pieces.length; i++) {
+			end = Math.max(end, pieces[i].delay + pieces[i].duration);
+		}
+
+		return end + 600;
+	};
+
 	PuzzleHeart.prototype.drawPiece = function (ctx, piece, x, y, rot, scale, alpha, grid) {
 		var img = piece.image;
 		if (!img || !img.complete || !img.naturalWidth) {
@@ -255,6 +268,7 @@
 		this.placedPieces = [];
 		this.startTime = performance.now();
 		this.running = true;
+		this.completed = false;
 		this.totalPieces = this.pieces.length;
 		this.doneCount = 0;
 
@@ -308,7 +322,8 @@
 
 		this.paintFrame();
 
-		if (allDone) {
+		if (allDone && !this.completed) {
+			this.completed = true;
 			this.running = false;
 			if (this.onComplete) {
 				this.onComplete();

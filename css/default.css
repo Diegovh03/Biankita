@@ -242,6 +242,19 @@ body {
 	border-radius: 0 0 8px 0;
 }
 
+body.letter-locked .letter-card__divider,
+body.letter-locked .letter-card__reveal-all,
+body.letter-locked .letter-card__inner,
+body.letter-locked .letter-card__corner-art,
+body.letter-locked .letter-card .signature,
+body.letter-locked #code .line,
+body.letter-locked #code .line.visible {
+	display: none !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
+
 .letter-card__divider,
 .letter-card__reveal-all,
 .letter-card__inner,

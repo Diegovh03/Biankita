@@ -405,8 +405,11 @@ function initStoryPhotos() {
 function prepareTypewriterText() {
 	$("#code .line").each(function () {
 		var $el = $(this);
-		$el.data("fullText", $el.html());
-		$el.empty();
+
+		if (!$el.data("fullText")) {
+			$el.data("fullText", $el.html());
+			$el.empty();
+		}
 	});
 }
 
@@ -491,6 +494,9 @@ function revealAllLetter() {
 }
 
 function prepareLetterCardWaiting() {
+	prepareTypewriterText();
+	document.body.classList.add("letter-locked");
+
 	var card = document.querySelector(".letter-card");
 
 	if (card) {
@@ -504,6 +510,7 @@ function beginLetterReveal() {
 	}
 
 	letterRevealStarted = true;
+	document.body.classList.remove("letter-locked");
 
 	var card = document.querySelector(".letter-card");
 	if (card) {
@@ -513,20 +520,37 @@ function beginLetterReveal() {
 	startTypewriter();
 }
 
-function tryBeginLetterAfterHeartEffect() {
+function scheduleLetterRevealAfterPuzzle(minFinishAt) {
 	if (letterRevealStarted) {
 		return;
 	}
 
-	if (!puzzleComplete || !flowerHeartComplete) {
+	function launch() {
+		if (letterRevealStarted) {
+			return;
+		}
+
+		var pause = window.matchMedia("(prefers-reduced-motion: reduce)").matches ?
+			300 :
+			Math.max(LETTER_START_AFTER_PUZZLE_MS, HEART_LIGHTNING_MS);
+		var remaining = Math.max(0, minFinishAt - performance.now());
+
+		setTimeout(beginLetterReveal, remaining + pause);
+	}
+
+	if (flowersStarted && !flowerHeartComplete) {
+		var flowerWait = setInterval(function () {
+			if (flowerHeartComplete || letterRevealStarted) {
+				clearInterval(flowerWait);
+				if (!letterRevealStarted) {
+					launch();
+				}
+			}
+		}, 80);
 		return;
 	}
 
-	var delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ?
-		300 :
-		Math.max(LETTER_START_AFTER_PUZZLE_MS, HEART_LIGHTNING_MS);
-
-	setTimeout(beginLetterReveal, delay);
+	launch();
 }
 
 function startTypewriter() {
@@ -555,7 +579,7 @@ function startTypewriter() {
 	}
 
 	function typeNextLine() {
-		if (letterRevealStopped) {
+		if (letterRevealStopped || document.body.classList.contains("letter-locked")) {
 			return;
 		}
 
@@ -635,7 +659,6 @@ function startFlowerHeart() {
 		if (angle >= 30) {
 			clearInterval(animationTimer);
 			flowerHeartComplete = true;
-			tryBeginLetterAfterHeartEffect();
 		} else {
 			angle += 0.2;
 		}
@@ -654,8 +677,10 @@ function startPuzzleHeart(imageUrls) {
 		}
 
 		var puzzle = new PuzzleHeart(canvas, images);
+		var minFinishAt;
 
 		puzzle.setupCanvas();
+		minFinishAt = performance.now() + puzzle.getEstimatedDuration();
 		setupGarden();
 		adjustCodePosition();
 
@@ -677,7 +702,7 @@ function startPuzzleHeart(imageUrls) {
 				flowersStarted = true;
 				startFlowerHeart();
 			}
-			tryBeginLetterAfterHeartEffect();
+			scheduleLetterRevealAfterPuzzle(minFinishAt);
 		};
 
 		puzzle.start();

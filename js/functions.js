@@ -9,8 +9,9 @@ var letterRevealStopped = false;
 var letterRevealFinishedAt = 0;
 var letterRevealStarted = false;
 var EXPLODE_DELAY_AFTER_LETTER = 10000;
-var LETTER_START_AFTER_PUZZLE_MS = 2200;
-var HEART_LIGHTNING_MS = 2000;
+var LETTER_START_AFTER_PUZZLE_MS = 2800;
+var HEART_LIGHTNING_MS = 2200;
+var letterRevealTimer = null;
 
 function timeElapse(date) {
 	var current = new Date();
@@ -520,37 +521,30 @@ function beginLetterReveal() {
 	startTypewriter();
 }
 
-function scheduleLetterRevealAfterPuzzle(minFinishAt) {
-	if (letterRevealStarted) {
+function scheduleLetterRevealWhenHeartFinishes(puzzleDurationMs) {
+	if (letterRevealStarted || letterRevealTimer) {
 		return;
 	}
 
-	function launch() {
+	var pause = window.matchMedia("(prefers-reduced-motion: reduce)").matches ?
+		500 :
+		Math.max(LETTER_START_AFTER_PUZZLE_MS, HEART_LIGHTNING_MS);
+	var waitMs = Math.max(puzzleDurationMs, 11000) + pause;
+
+	function tryReveal() {
 		if (letterRevealStarted) {
 			return;
 		}
 
-		var pause = window.matchMedia("(prefers-reduced-motion: reduce)").matches ?
-			300 :
-			Math.max(LETTER_START_AFTER_PUZZLE_MS, HEART_LIGHTNING_MS);
-		var remaining = Math.max(0, minFinishAt - performance.now());
+		if (flowersStarted && !flowerHeartComplete) {
+			letterRevealTimer = setTimeout(tryReveal, 120);
+			return;
+		}
 
-		setTimeout(beginLetterReveal, remaining + pause);
+		beginLetterReveal();
 	}
 
-	if (flowersStarted && !flowerHeartComplete) {
-		var flowerWait = setInterval(function () {
-			if (flowerHeartComplete || letterRevealStarted) {
-				clearInterval(flowerWait);
-				if (!letterRevealStarted) {
-					launch();
-				}
-			}
-		}, 80);
-		return;
-	}
-
-	launch();
+	letterRevealTimer = setTimeout(tryReveal, waitMs);
 }
 
 function startTypewriter() {
@@ -677,10 +671,9 @@ function startPuzzleHeart(imageUrls) {
 		}
 
 		var puzzle = new PuzzleHeart(canvas, images);
-		var minFinishAt;
+		var puzzleDurationMs;
 
 		puzzle.setupCanvas();
-		minFinishAt = performance.now() + puzzle.getEstimatedDuration();
 		setupGarden();
 		adjustCodePosition();
 
@@ -702,10 +695,11 @@ function startPuzzleHeart(imageUrls) {
 				flowersStarted = true;
 				startFlowerHeart();
 			}
-			scheduleLetterRevealAfterPuzzle(minFinishAt);
 		};
 
 		puzzle.start();
+		puzzleDurationMs = puzzle.getEstimatedDuration();
+		scheduleLetterRevealWhenHeartFinishes(puzzleDurationMs);
 	}
 
 	function tryLoad() {

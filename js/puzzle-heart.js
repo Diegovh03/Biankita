@@ -190,7 +190,11 @@
 			end = Math.max(end, pieces[i].delay + pieces[i].duration);
 		}
 
-		return end + 600;
+		if (!pieces.length) {
+			return 13000;
+		}
+
+		return end + 1800;
 	};
 
 	PuzzleHeart.prototype.drawPiece = function (ctx, piece, x, y, rot, scale, alpha, grid) {
@@ -322,7 +326,7 @@
 
 		this.paintFrame();
 
-		if (allDone && !this.completed) {
+		if (allDone && !this.completed && this.totalPieces > 0) {
 			this.completed = true;
 			this.running = false;
 			if (this.onComplete) {

@@ -1,4 +1,4 @@
-var CARTA_URL = "https://is.gd/OBRhL8";
+var CARTA_URL = "https://diegovh03.github.io/Biankita/index.html?v=20260625";
 var ENVIADO_URL = "https://diegovh03.github.io/Biankita/enviado.html";
 
 function doPost(e) {

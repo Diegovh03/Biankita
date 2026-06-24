@@ -1,5 +1,5 @@
 /* Cambia esto por tu correo real (solo una vez) */
-var ACCESO_OWNER_EMAIL = "TU_CORREO@gmail.com";
+var ACCESO_OWNER_EMAIL = "daaron.valdiviah@gmail.com";
 var CARTA_URL = "https://diegovh03.github.io/Biankita/";
 
 function parseEmails(value) {

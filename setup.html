@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conectar Gmail — 5 minutos</title>
+<link href="css/gate.css" type="text/css" rel="stylesheet" />
+<style>
+.setup { width: min(100%, 560px); text-align: left; }
+.setup h2 { font-size: 20px; margin: 22px 0 10px; color: #9a4d7a; }
+.setup ol { padding-left: 20px; line-height: 1.6; }
+.setup li { margin-bottom: 10px; }
+.setup pre {
+	padding: 12px;
+	border-radius: 10px;
+	background: #fff;
+	font-size: 11px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+.setup a { color: #7b5ea7; }
+.setup-box {
+	margin-top: 16px;
+	padding: 14px;
+	border-radius: 12px;
+	background: rgba(123, 94, 167, 0.08);
+	border: 1px solid rgba(123, 94, 167, 0.2);
+}
+</style>
+</head>
+<body class="gate-page">
+
+<main class="gate-card setup">
+	<h1 class="gate-card__title">Conectar tu Gmail (una sola vez)</h1>
+	<p class="gate-card__lead">
+		Una pagina web no puede mandar correos sola. Hay que conectar <strong>tu Gmail</strong> una vez.
+		Despues de eso: alguien pone su correo → le llega el enlace. Automatico.
+	</p>
+
+	<h2>Paso 1 — Abrir Google Script</h2>
+	<p><a href="https://script.google.com/home/projects/create" target="_blank" rel="noopener">Clic aqui: crear proyecto nuevo</a></p>
+
+	<h2>Paso 2 — Pegar este codigo</h2>
+	<p>Borra todo lo que hay en el editor y pega esto:</p>
+	<pre id="scriptCode">var CARTA_URL = "https://is.gd/OBRhL8";
+var ENVIADO_URL = "https://diegovh03.github.io/Biankita/enviado.html";
+
+function doPost(e) {
+  var email = (e.parameter.email || "").trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return HtmlService.createHtmlOutput("Correo invalido.");
+  }
+  GmailApp.sendEmail(
+    email,
+    "Tu carta te espera",
+    "Hola,\n\nTe envio el enlace de tu carta:\n\n" + CARTA_URL +
+    "\n\nAbrelo desde tu laptop.\n\nCon carino,\nDiego"
+  );
+  return HtmlService.createHtmlOutput(
+    '&lt;meta http-equiv="refresh" content="0;url=' + ENVIADO_URL + '"&gt;'
+  );
+}</pre>
+	<p><button type="button" class="gate-link-btn" id="copyCode">Copiar codigo</button></p>
+
+	<h2>Paso 3 — Publicar</h2>
+	<ol>
+		<li>Arriba: <strong>Implementar</strong> → <strong>Nueva implementacion</strong></li>
+		<li>Tipo: <strong>Aplicacion web</strong></li>
+		<li>Ejecutar como: <strong>Yo</strong> (daaron.valdiviah@gmail.com)</li>
+		<li>Acceso: <strong>Cualquier persona</strong></li>
+		<li><strong>Implementar</strong> → Google pedira permiso para enviar correos → <strong>Permitir</strong></li>
+		<li>Copia la URL que termina en <strong>/exec</strong></li>
+	</ol>
+
+	<h2>Paso 4 — Pegar la URL aqui y en el proyecto</h2>
+	<div class="setup-box">
+		<label for="execUrl"><strong>URL /exec:</strong></label><br />
+		<input type="url" id="execUrl" style="width:100%;margin-top:8px;padding:10px;" placeholder="https://script.google.com/macros/s/...../exec" />
+		<p style="margin-top:10px;font-size:14px;">Pega esa URL en el archivo <code>js/google-config.js</code>:</p>
+		<pre id="configPreview">window.GOOGLE_SCRIPT_URL = "PEGA_LA_URL_AQUI";</pre>
+		<p><button type="button" class="gate-link-btn" id="copyConfig">Copiar linea para google-config.js</button></p>
+	</div>
+
+	<h2>Paso 5 — Subir a GitHub</h2>
+	<pre>cd C:\Users\diegova\Desktop\Biankita
+git add js/google-config.js
+git commit -m "Conectar Gmail"
+git push</pre>
+
+	<p class="gate-card__note">Cuando termines, prueba acceso.html con el correo de otra persona (no solo el tuyo).</p>
+	<p><a class="gate-link-btn" href="acceso.html">Ir a acceso</a></p>
+</main>
+
+<script>
+(function () {
+	var execInput = document.getElementById("execUrl");
+	var configPreview = document.getElementById("configPreview");
+
+	function updatePreview() {
+		var url = execInput.value.trim() || "PEGA_LA_URL_AQUI";
+		configPreview.textContent = 'window.GOOGLE_SCRIPT_URL = "' + url + '";';
+	}
+
+	execInput.addEventListener("input", updatePreview);
+
+	document.getElementById("copyCode").addEventListener("click", function () {
+		copyText(document.getElementById("scriptCode").textContent);
+	});
+
+	document.getElementById("copyConfig").addEventListener("click", function () {
+		copyText(configPreview.textContent);
+	});
+
+	function copyText(text) {
+		if (navigator.clipboard) {
+			navigator.clipboard.writeText(text);
+		}
+	}
+})();
+</script>
+
+</body>
+</html>

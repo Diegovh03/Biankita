@@ -19,12 +19,7 @@
 	<h1 class="gate-card__title">Algo especial te espera</h1>
 	<p class="gate-card__lead">Dejame tu correo y te envio el enlace para abrirlo.</p>
 
-	<form
-		id="accesoForm"
-		class="gate-form"
-		action="https://formsubmit.co/daaron.valdiviah@gmail.com"
-		method="POST"
-	>
+	<form id="accesoForm" class="gate-form">
 		<label for="email">Tu correo</label>
 		<input
 			type="email"
@@ -36,15 +31,15 @@
 			required
 		/>
 
-		<input type="hidden" name="_subject" value="Nuevo pedido de enlace — Biankita" />
-		<input type="hidden" name="_next" value="https://diegovh03.github.io/Biankita/enviado.html" />
-		<input type="hidden" name="_autoresponse" value="Hola,&#10;&#10;Te envio el enlace de tu carta:&#10;&#10;https://is.gd/OBRhL8&#10;&#10;Abrelo desde tu laptop para que se vea mejor.&#10;&#10;Con carino,&#10;Diego" />
-
 		<button type="submit">Enviar enlace</button>
 	</form>
 
-	<p class="gate-card__note">Al enviar, confirma el captcha si te lo pide. Revisa spam si no llega el correo.</p>
+	<p id="accesoStatus" class="gate-status" role="status"></p>
+	<p class="gate-card__note">Abrelo desde tu laptop cuando llegue el correo.</p>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="js/email-config.js"></script>
+<script src="js/acceso.js"></script>
 </body>
 </html>

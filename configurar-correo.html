@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Configurar envio de correo</title>
+<link href="css/gate.css" type="text/css" rel="stylesheet" />
+<style>
+.setup-card { width: min(100%, 520px); text-align: left; }
+.setup-card ol { padding-left: 20px; line-height: 1.55; }
+.setup-card li { margin-bottom: 10px; }
+.setup-card code, .setup-card pre {
+	display: block;
+	margin: 10px 0;
+	padding: 12px;
+	border-radius: 10px;
+	background: rgba(255,255,255,0.85);
+	font-family: "Fira Code", Consolas, monospace;
+	font-size: 12px;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+.setup-card a { color: #7b5ea7; }
+</style>
+</head>
+<body class="gate-page">
+
+<main class="gate-card setup-card">
+	<h1 class="gate-card__title">Configurar correo (solo una vez)</h1>
+	<p class="gate-card__lead">FormSubmit solo te manda avisos a ti. Con EmailJS el enlace si llega a la otra persona.</p>
+
+	<ol>
+		<li>Entra a <a href="https://www.emailjs.com/" target="_blank" rel="noopener">emailjs.com</a> y crea cuenta gratis (con tu Gmail).</li>
+		<li><strong>Email Services</strong> → Add New Service → elige <strong>Gmail</strong> → conecta <strong>daaron.valdiviah@gmail.com</strong>.</li>
+		<li><strong>Email Templates</strong> → Create Template:
+			<ul>
+				<li><strong>To Email:</strong> <code>{{to_email}}</code></li>
+				<li><strong>Subject:</strong> Tu carta te espera</li>
+				<li><strong>Content:</strong></li>
+			</ul>
+			<pre>Hola,
+
+Te envio el enlace de tu carta:
+
+{{link}}
+
+Abrelo desde tu laptop para que se vea mejor.
+
+Con carino,
+Diego</pre>
+		</li>
+		<li>En <strong>Account → API Keys</strong> copia tu <strong>Public Key</strong>.</li>
+		<li>Abre el archivo <code>js/email-config.js</code> en tu carpeta Biankita y pega los 3 datos:</li>
+	</ol>
+
+	<pre>window.EMAILJS_CONFIG = {
+  publicKey: "tu_public_key",
+  serviceId: "service_xxxxx",
+  templateId: "template_xxxxx"
+};</pre>
+
+	<p class="gate-card__note">Luego sube a GitHub:</p>
+	<pre>git add js/email-config.js
+git commit -m "Configurar EmailJS"
+git push</pre>
+
+	<h2 class="gate-card__title" style="font-size:22px;margin-top:24px;">Como probar</h2>
+	<ol>
+		<li>Usa un correo <strong>distinto</strong> al tuyo (Outlook, iCloud, el de Biankita).</li>
+		<li>Abre <a href="acceso.html">acceso.html</a>, pon ese correo y envia.</li>
+		<li>Revisa <strong>ese</strong> correo (y spam). Debe llegar con <strong>is.gd/OBRhL8</strong>.</li>
+		<li>Lo que tu ves de FormSubmit ("Someone submitted your form") es solo aviso para ti, no es el enlace.</li>
+	</ol>
+
+	<p><a class="gate-link-btn" href="acceso.html">Volver a acceso</a></p>
+</main>
+
+</body>
+</html>

@@ -17,7 +17,7 @@
 <main class="gate-card">
 	<span class="gate-card__heart" aria-hidden="true">♥</span>
 	<h1 class="gate-card__title">Algo especial te espera</h1>
-	<p class="gate-card__lead">Dejame tu correo y te envio el enlace para abrirlo en la laptop.</p>
+	<p class="gate-card__lead">Dejame tu correo y te envio el enlace.</p>
 
 	<form id="accesoForm" class="gate-form">
 		<label for="email">Tu correo</label>
@@ -35,25 +35,22 @@
 	</form>
 
 	<p id="accesoStatus" class="gate-status" role="status"></p>
+	<p class="gate-card__note gate-card__note--laptop">
+		Cuando te llegue el correo, abre el enlace <strong>desde tu laptop</strong> para verlo bien.
+	</p>
 </main>
 
 <script src="js/google-config.js"></script>
 <script>
 (function () {
 	var ENVIADO_URL = "https://diegovh03.github.io/Biankita/enviado.html";
+	var SCRIPT_URL =
+		window.GOOGLE_SCRIPT_URL ||
+		"https://script.google.com/macros/s/AKfycby8fBHPwiZ8z6Yn_7Xu5Ebl5qAQd0RXGtxt9D78AogsLuemHkRtFia4wLMIZoe4iAJjnQ/exec";
 	var form = document.getElementById("accesoForm");
 	var input = document.getElementById("email");
 	var status = document.getElementById("accesoStatus");
-	var url = window.GOOGLE_SCRIPT_URL || "";
 	var btn = form.querySelector("button");
-
-	if (!url || url.indexOf("/exec") === -1) {
-		status.className = "gate-status gate-status--error";
-		status.innerHTML =
-			"Falta conectar Gmail. Abre <a href='setup.html'>setup.html</a>.";
-		btn.disabled = true;
-		return;
-	}
 
 	form.addEventListener("submit", function (event) {
 		event.preventDefault();
@@ -84,7 +81,7 @@
 			window.location.href = ENVIADO_URL;
 		}
 
-		fetch(url, {
+		fetch(SCRIPT_URL, {
 			method: "POST",
 			mode: "no-cors",
 			headers: { "Content-Type": "application/x-www-form-urlencoded" },

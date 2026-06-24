@@ -230,8 +230,11 @@ body.gate-page {
 	color: var(--muted);
 }
 
-.gate-steps li {
-	margin-bottom: 8px;
+.gate-card__note--laptop {
+	margin-top: 16px;
+	font-size: 15px;
+	line-height: 1.5;
+	text-align: center;
 }
 
 @keyframes gateFade {

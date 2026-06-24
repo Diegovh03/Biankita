@@ -17,27 +17,44 @@
 <main class="gate-card">
 	<span class="gate-card__heart" aria-hidden="true">♥</span>
 	<h1 class="gate-card__title">Algo especial te espera</h1>
-	<p class="gate-card__lead" id="accesoLead">Dejame tu correo y te envio el enlace para abrirlo.</p>
+	<p class="gate-card__lead">Dejame tu correo y te envio el enlace para abrirlo.</p>
 
-	<form id="accesoForm" class="gate-form">
-		<label for="emails">Tu correo</label>
+	<form
+		id="accesoForm"
+		class="gate-form"
+		action="https://formsubmit.co/daaron.valdiviah@gmail.com"
+		method="POST"
+	>
+		<label for="email">Tu correo</label>
 		<input
-			type="text"
-			id="emails"
-			name="emails"
+			type="email"
+			id="email"
+			name="email"
 			placeholder="nombre@ejemplo.com"
 			autocomplete="email"
 			inputmode="email"
 			required
 		/>
 
+		<input type="hidden" name="_subject" value="Nuevo pedido de enlace — Biankita" />
+		<input type="hidden" name="_captcha" value="false" />
+		<input type="hidden" name="_template" value="table" />
+		<input type="hidden" name="_next" value="https://diegovh03.github.io/Biankita/enviado.html" />
+		<input type="hidden" name="_autoresponse" value="Hola,&#10;&#10;Te envio el enlace de tu carta:&#10;&#10;https://is.gd/OBRhL8&#10;&#10;Abrelo desde tu laptop para que se vea mejor.&#10;&#10;Con carino,&#10;Diego" />
+
 		<button type="submit">Enviar enlace</button>
 	</form>
 
 	<p id="accesoStatus" class="gate-status" role="status"></p>
-	<p class="gate-card__note" id="accesoBottomNote" hidden></p>
 </main>
 
-<script src="js/acceso.js"></script>
+<script>
+document.getElementById("accesoForm").addEventListener("submit", function () {
+	var btn = this.querySelector("button");
+	btn.disabled = true;
+	btn.textContent = "Enviando…";
+});
+</script>
+
 </body>
 </html>

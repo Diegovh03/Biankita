@@ -1,18 +1,20 @@
 var CARTA_URL = "https://is.gd/OBRhL8";
 var ENVIADO_URL = "https://diegovh03.github.io/Biankita/enviado.html";
 
-function isEmailJsReady() {
-	var cfg = window.EMAILJS_CONFIG;
+function hasGoogleScript() {
+	var url = window.GOOGLE_SCRIPT_URL;
+	return url && url.indexOf("http") === 0 && url.indexOf("/exec") !== -1;
+}
 
-	return (
-		cfg &&
-		cfg.publicKey &&
-		cfg.publicKey.indexOf("PON_AQUI") === -1 &&
-		cfg.serviceId &&
-		cfg.serviceId.indexOf("PON_AQUI") === -1 &&
-		cfg.templateId &&
-		cfg.templateId.indexOf("PON_AQUI") === -1
+function buildMailto(email) {
+	var subject = encodeURIComponent("Tu carta te espera");
+	var body = encodeURIComponent(
+		"Hola,\n\nTe envio el enlace de tu carta:\n\n" +
+			CARTA_URL +
+			"\n\nAbrelo desde tu laptop para que se vea mejor.\n\nCon carino,\nDiego"
 	);
+
+	return "mailto:" + encodeURIComponent(email) + "?subject=" + subject + "&body=" + body;
 }
 
 function initAccesoForm() {
@@ -25,15 +27,15 @@ function initAccesoForm() {
 		return;
 	}
 
-	if (!isEmailJsReady()) {
-		status.className = "gate-status gate-status--error";
-		status.innerHTML =
-			'Falta configurar el envio de correos. Abre <a href="configurar-correo.html">configurar-correo.html</a> (solo una vez).';
-		btn.disabled = true;
+	if (hasGoogleScript()) {
+		form.action = window.GOOGLE_SCRIPT_URL;
+		form.method = "POST";
+		form.addEventListener("submit", function () {
+			btn.disabled = true;
+			btn.textContent = "Enviando…";
+		});
 		return;
 	}
-
-	emailjs.init({ publicKey: window.EMAILJS_CONFIG.publicKey });
 
 	form.addEventListener("submit", function (event) {
 		event.preventDefault();
@@ -47,26 +49,16 @@ function initAccesoForm() {
 		}
 
 		btn.disabled = true;
-		btn.textContent = "Enviando…";
-		status.className = "gate-status";
-		status.textContent = "";
+		btn.textContent = "Abriendo correo…";
+		status.className = "gate-status gate-status--ok";
+		status.textContent =
+			"Se abrira tu app de correo con el enlace. Pulsa Enviar alli.";
 
-		emailjs
-			.send(window.EMAILJS_CONFIG.serviceId, window.EMAILJS_CONFIG.templateId, {
-				to_email: email,
-				link: CARTA_URL,
-				user_email: email
-			})
-			.then(function () {
-				window.location.href = ENVIADO_URL;
-			})
-			.catch(function () {
-				status.className = "gate-status gate-status--error";
-				status.textContent =
-					"No se pudo enviar. Revisa configurar-correo.html o intenta de nuevo.";
-				btn.disabled = false;
-				btn.textContent = "Enviar enlace";
-			});
+		window.location.href = buildMailto(email);
+
+		setTimeout(function () {
+			window.location.href = ENVIADO_URL + "?modo=borrador";
+		}, 1200);
 	});
 }
 

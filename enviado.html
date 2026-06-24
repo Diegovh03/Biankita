@@ -15,9 +15,23 @@
 <main class="gate-card gate-card--success">
 	<span class="gate-card__heart" aria-hidden="true">♥</span>
 	<h1 class="gate-card__title">Listo</h1>
-	<p class="gate-card__lead">Te enviamos el enlace a tu correo.</p>
-	<p class="gate-card__note">Abrelo desde tu laptop cuando lo recibas. Si no aparece en un minuto, revisa la carpeta de spam.</p>
+	<p class="gate-card__lead" id="enviadoLead">Te enviamos el enlace a tu correo.</p>
+	<p class="gate-card__note" id="enviadoNote">Abrelo desde tu laptop cuando lo recibas. Revisa spam si no aparece en un minuto.</p>
 </main>
+
+<script>
+(function () {
+	var params = new URLSearchParams(window.location.search);
+	var lead = document.getElementById("enviadoLead");
+	var note = document.getElementById("enviadoNote");
+
+	if (params.get("modo") === "borrador" && lead && note) {
+		lead.textContent = "Casi listo — falta un paso.";
+		note.textContent =
+			"Se abrio tu app de correo con el enlace ya escrito. Pulsa Enviar alli. Luego abrelo desde tu laptop (revisa spam si no aparece).";
+	}
+})();
+</script>
 
 </body>
 </html>

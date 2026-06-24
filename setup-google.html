@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Configurar envio automatico (Gmail)</title>
+<link href="css/gate.css" type="text/css" rel="stylesheet" />
+<style>
+.setup { width: min(100%, 540px); text-align: left; }
+.setup ol { padding-left: 20px; line-height: 1.55; }
+.setup li { margin-bottom: 10px; }
+.setup pre, .setup code {
+	display: block;
+	margin: 10px 0;
+	padding: 12px;
+	border-radius: 10px;
+	background: rgba(255,255,255,0.9);
+	font-family: "Fira Code", Consolas, monospace;
+	font-size: 11px;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+.setup a { color: #7b5ea7; }
+</style>
+</head>
+<body class="gate-page">
+
+<main class="gate-card setup">
+	<h1 class="gate-card__title">Envio automatico por Gmail</h1>
+	<p class="gate-card__lead">FormSubmit no manda el enlace a la otra persona. Con Google Script si (gratis, 5 min).</p>
+
+	<ol>
+		<li>Abre <a href="https://script.google.com/home/projects/create" target="_blank" rel="noopener">script.google.com → proyecto nuevo</a>.</li>
+		<li>Borra todo y pega el codigo del archivo <code>google-apps-script/enviar-enlace.gs</code> de tu carpeta Biankita.</li>
+		<li>Guardar → <strong>Implementar</strong> → <strong>Nueva implementacion</strong> → tipo <strong>Aplicacion web</strong>.</li>
+		<li>Ejecutar como: <strong>Yo</strong> · Acceso: <strong>Cualquier persona</strong> → Implementar.</li>
+		<li>Copia la URL que termina en <strong>/exec</strong>.</li>
+		<li>Abre <code>js/google-config.js</code> y pegala:</li>
+	</ol>
+
+	<pre>window.GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/XXXX/exec";</pre>
+
+	<p class="gate-card__note">Sube a GitHub:</p>
+	<pre>git add js/google-config.js
+git commit -m "Activar Gmail automatico"
+git push</pre>
+
+	<h2 class="gate-card__title" style="font-size:22px;margin-top:20px;">Mientras tanto (sin configurar)</h2>
+	<p class="gate-card__note">La pagina abre el correo de la persona con el enlace ya escrito. Ella pulsa <strong>Enviar</strong> y le llega a su bandeja.</p>
+
+	<p style="margin-top:18px"><a class="gate-link-btn" href="acceso.html">Probar acceso</a></p>
+</main>
+
+</body>
+</html>

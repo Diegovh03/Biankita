@@ -1,0 +1,202 @@
+:root {
+	--cream: #fffdf0;
+	--text: #3f3f3f;
+	--muted: #8a7b75;
+	--accent: #9a4d7a;
+	--lila: #7b5ea7;
+	--card-bg: rgba(255, 255, 255, 0.72);
+	--card-border: rgba(180, 120, 140, 0.22);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body.gate-page {
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px 16px;
+	font-family: "Cormorant Garamond", Georgia, serif;
+	color: var(--text);
+	background:
+		radial-gradient(circle at 50% 0%, rgba(255, 236, 245, 0.6) 0%, transparent 45%),
+		radial-gradient(circle at 15% 90%, rgba(255, 230, 240, 0.35) 0%, transparent 30%),
+		radial-gradient(circle at 85% 80%, rgba(230, 220, 255, 0.3) 0%, transparent 28%),
+		var(--cream);
+}
+
+.gate-card {
+	width: min(100%, 420px);
+	padding: 36px 28px 30px;
+	border-radius: 24px;
+	background: var(--card-bg);
+	border: 1px solid var(--card-border);
+	box-shadow:
+		0 18px 48px rgba(120, 90, 100, 0.12),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	text-align: center;
+	animation: gateFade 0.9s ease both;
+}
+
+.gate-card__heart {
+	display: block;
+	margin: 0 auto 14px;
+	font-size: 42px;
+	line-height: 1;
+	color: #c98aab;
+	animation: gateHeart 2.6s ease-in-out infinite;
+}
+
+.gate-card__title {
+	margin: 0 0 10px;
+	font-family: "Playfair Display", Georgia, serif;
+	font-size: clamp(28px, 6vw, 34px);
+	font-weight: 600;
+	font-style: italic;
+	line-height: 1.2;
+	background: linear-gradient(120deg, var(--lila) 0%, var(--accent) 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.gate-card__lead {
+	margin: 0 0 24px;
+	font-size: 18px;
+	line-height: 1.45;
+	color: var(--muted);
+}
+
+.gate-form {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	text-align: left;
+}
+
+.gate-form label {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--accent);
+	letter-spacing: 0.04em;
+}
+
+.gate-form input[type="email"] {
+	width: 100%;
+	padding: 14px 16px;
+	border: 1px solid rgba(154, 77, 122, 0.22);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.92);
+	font-family: "Fira Code", Consolas, monospace;
+	font-size: 15px;
+	color: var(--text);
+	outline: none;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gate-form input[type="email"]:focus {
+	border-color: rgba(123, 94, 167, 0.55);
+	box-shadow: 0 0 0 3px rgba(123, 94, 167, 0.12);
+}
+
+.gate-form button {
+	margin-top: 4px;
+	padding: 15px 18px;
+	border: none;
+	border-radius: 999px;
+	background: linear-gradient(120deg, #8b6fd8 0%, #c45c7a 100%);
+	color: #fff;
+	font-family: "Playfair Display", Georgia, serif;
+	font-size: 17px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	box-shadow: 0 10px 24px rgba(154, 77, 122, 0.22);
+}
+
+.gate-form button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 14px 28px rgba(154, 77, 122, 0.28);
+}
+
+.gate-form button:active {
+	transform: translateY(0);
+}
+
+.gate-card__note {
+	margin: 18px 0 0;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--muted);
+}
+
+.gate-status {
+	margin: 14px 0 0;
+	font-size: 16px;
+	line-height: 1.45;
+	min-height: 1.4em;
+}
+
+.gate-status--ok {
+	color: #3d8f8f;
+	font-weight: 600;
+}
+
+.gate-status--error {
+	color: #b45a84;
+	font-weight: 600;
+}
+
+.gate-form button:disabled {
+	opacity: 0.7;
+	cursor: wait;
+	transform: none;
+}
+
+.gate-card--success .gate-card__lead {
+	margin-bottom: 18px;
+}
+
+.gate-link-btn {
+	display: inline-block;
+	margin-top: 8px;
+	padding: 12px 22px;
+	border-radius: 999px;
+	background: rgba(123, 94, 167, 0.12);
+	color: var(--lila);
+	font-family: "Playfair Display", Georgia, serif;
+	font-size: 16px;
+	font-weight: 600;
+	text-decoration: none;
+	border: 1px solid rgba(123, 94, 167, 0.2);
+}
+
+@keyframes gateFade {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes gateHeart {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.08); }
+}
+
+@media (max-width: 480px) {
+	.gate-card {
+		padding: 28px 20px 24px;
+		border-radius: 20px;
+	}
+
+	.gate-card__lead {
+		font-size: 17px;
+	}
+}

@@ -30,6 +30,15 @@ ALTERNATIVA RÁPIDA (sin Git)
   • Arrastra la carpeta Biankita
   • Copia el link que te dan
 
+PASO 4 — Página del QR (correo)
+  • El QR debe apuntar a acceso.html (página simple):
+    https://diegovh03.github.io/Biankita/acceso.html
+  • Ahí se pide el correo y se envía el enlace a la carta:
+    https://diegovh03.github.io/Biankita/
+  • En acceso.html cambia TU_CORREO@gmail.com por tu correo real
+  • La 1.ª vez que alguien envíe el formulario, FormSubmit te manda
+    un mail de activación — haz clic en el enlace para activarlo
+
 ═══════════════════════════════════════════════════════
 
 Más detalle en README.md

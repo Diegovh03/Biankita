@@ -1,0 +1,52 @@
+═══════════════════════════════════════════════════════
+  ENVIAR EL ENLACE POR GMAIL (GOOGLE) — 10 MINUTOS
+═══════════════════════════════════════════════════════
+
+FormSubmit solo te manda avisos a ti. Con Google el correo
+SI llega a la persona que pone su email (desde tu Gmail).
+
+PASO 1 — Crear el script
+  1. Entra a https://script.google.com
+  2. Nuevo proyecto
+  3. Borra lo que hay y pega el codigo de:
+     google-apps-script/enviar-enlace.gs
+  4. Guardar (Ctrl+S). Nombre: Enviar enlace Biankita
+
+PASO 2 — Autorizar Gmail (solo una vez)
+  1. Arriba: Ejecutar → elegir doPost (si pide, ignora el error)
+  2. O mejor: Publicar primero (paso 3) y al probar el formulario
+     Google te pedira permiso para enviar correos desde tu cuenta
+  3. Acepta con la cuenta daaron.valdiviah@gmail.com
+
+PASO 3 — Publicar como pagina web
+  1. Implementar → Nueva implementacion
+  2. Tipo: Aplicacion web
+  3. Ejecutar como: Yo (daaron.valdiviah@gmail.com)
+  4. Quien tiene acceso: Cualquier persona
+  5. Implementar → copia la URL (termina en /exec)
+
+PASO 4 — Pegar la URL en acceso.html
+  1. Abre acceso.html
+  2. Busca TU_URL_DE_GOOGLE_SCRIPT
+  3. Reemplazala por la URL que copiaste (la que termina en /exec)
+  4. Sube a GitHub:
+     git add acceso.html
+     git commit -m "Conectar envio Gmail Google"
+     git push
+
+PASO 5 — Probar
+  1. Abre https://diegovh03.github.io/Biankita/acceso.html
+  2. Pon un correo de prueba
+  3. Revisa ESE correo (y spam). Debe llegar con is.gd/OBRhL8
+
+───────────────────────────────────────────────────────
+  OPCION ALTERNATIVA: SOLO GOOGLE FORM (sin email)
+───────────────────────────────────────────────────────
+  Si prefieres no usar script:
+  1. forms.google.com → formulario nuevo
+  2. Pregunta: Correo electronico (obligatorio)
+  3. Configuracion → Presentacion → Mensaje de confirmacion:
+     "Listo. Abre tu carta desde tu laptop: https://is.gd/OBRhL8"
+  4. En acceso.html puedes poner un enlace al formulario de Google
+
+═══════════════════════════════════════════════════════

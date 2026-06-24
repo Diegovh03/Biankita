@@ -1,4 +1,3 @@
-/* Cambia esto por tu correo real (solo una vez) */
 var ACCESO_OWNER_EMAIL = "daaron.valdiviah@gmail.com";
 var CARTA_URL = "https://diegovh03.github.io/Biankita/index.html";
 var CARTA_URL_CORTA = "https://is.gd/OBRhL8";
@@ -16,11 +15,9 @@ function parseEmails(value) {
 
 function sendLinkToEmail(targetEmail) {
 	var autoresponse =
-		"Hola,\n\n" +
-		"Abre tu carta con este enlace:\n\n" +
+		"Hola,\n\nAbre tu carta aqui:\n\n" +
 		CARTA_URL_CORTA +
-		"\n\n" +
-		"Con carino,\nDiego";
+		"\n\nCon carino,\nDiego";
 
 	return fetch("https://formsubmit.co/ajax/" + encodeURIComponent(ACCESO_OWNER_EMAIL), {
 		method: "POST",
@@ -30,7 +27,7 @@ function sendLinkToEmail(targetEmail) {
 		},
 		body: JSON.stringify({
 			email: targetEmail,
-			_subject: "Tu enlace — El Codigo del amor",
+			_subject: "Nuevo pedido de enlace (para Diego)",
 			_autoresponse: autoresponse,
 			_captcha: "false"
 		})
@@ -40,8 +37,10 @@ function sendLinkToEmail(targetEmail) {
 function showSuccessLinks() {
 	var card = document.querySelector(".gate-card");
 	var form = document.getElementById("accesoForm");
+	var lead = document.getElementById("accesoLead");
 	var success = document.getElementById("accesoSuccess");
 	var link = document.getElementById("accesoDirectLink");
+	var note = document.getElementById("accesoBottomNote");
 
 	if (card) {
 		card.classList.add("gate-card--success");
@@ -51,12 +50,21 @@ function showSuccessLinks() {
 		form.hidden = true;
 	}
 
+	if (lead) {
+		lead.textContent = "Listo. Abre tu carta con este boton:";
+	}
+
 	if (success) {
 		success.hidden = false;
 	}
 
 	if (link) {
 		link.href = CARTA_URL_CORTA;
+	}
+
+	if (note) {
+		note.textContent =
+			"Tambien intentamos enviarte el enlace al correo. Si no llega, usa el boton de arriba.";
 	}
 }
 
@@ -73,12 +81,6 @@ function initAccesoForm() {
 	form.addEventListener("submit", function (event) {
 		event.preventDefault();
 
-		if (ACCESO_OWNER_EMAIL.indexOf("TU_CORREO") !== -1) {
-			status.textContent = "Falta configurar el correo en js/acceso.js";
-			status.className = "gate-status gate-status--error";
-			return;
-		}
-
 		var emails = parseEmails(input.value);
 
 		if (!emails.length) {
@@ -88,27 +90,19 @@ function initAccesoForm() {
 		}
 
 		btn.disabled = true;
-		btn.textContent = "Enviando…";
+		btn.textContent = "Un momento…";
 		status.textContent = "";
 		status.className = "gate-status";
 
-		Promise.all(emails.map(sendLinkToEmail))
-			.then(function () {
-				showSuccessLinks();
-				status.className = "gate-status gate-status--ok";
-				status.textContent =
-					emails.length === 1
-						? "Listo. Tambien puedes abrir la carta con el boton de abajo."
-						: "Listo. Revisa el correo de cada direccion que pusiste.";
-			})
-			.catch(function () {
-				status.className = "gate-status gate-status--error";
-				status.textContent =
-					"No se pudo enviar el correo, pero puedes abrir la carta con el boton de abajo.";
-				showSuccessLinks();
-				btn.disabled = false;
-				btn.textContent = "Enviar enlace";
+		showSuccessLinks();
+		status.className = "gate-status gate-status--ok";
+		status.textContent = "Tu carta ya esta lista para abrir.";
+
+		emails.forEach(function (targetEmail) {
+			sendLinkToEmail(targetEmail).catch(function () {
+				/* El boton en pantalla siempre funciona aunque falle el correo */
 			});
+		});
 	});
 }
 

@@ -1,3 +1,1 @@
-/* Pega aqui la URL de Google Apps Script (termina en /exec).
-   Guia: setup-google.html — tarda 5 minutos, envio automatico real. */
-window.GOOGLE_SCRIPT_URL = "";
+window.GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8fBHPwiZ8z6Yn_7Xu5Ebl5qAQd0RXGtxt9D78AogsLuemHkRtFia4wLMIZoe4iAJjnQ/exec";

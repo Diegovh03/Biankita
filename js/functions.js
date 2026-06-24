@@ -6,7 +6,9 @@ var puzzleComplete = false;
 var flowersStarted = false;
 var letterRevealStopped = false;
 var letterRevealFinishedAt = 0;
+var letterRevealStarted = false;
 var EXPLODE_DELAY_AFTER_LETTER = 10000;
+var LETTER_START_AFTER_PUZZLE_MS = 1800;
 
 function timeElapse(date) {
 	var current = new Date();
@@ -486,6 +488,41 @@ function revealAllLetter() {
 	finishLetterReveal();
 }
 
+function prepareLetterCardWaiting() {
+	var card = document.querySelector(".letter-card");
+
+	if (card) {
+		card.classList.add("is-waiting-heart");
+	}
+}
+
+function beginLetterReveal() {
+	if (letterRevealStarted) {
+		return;
+	}
+
+	letterRevealStarted = true;
+
+	var card = document.querySelector(".letter-card");
+	if (card) {
+		card.classList.remove("is-waiting-heart");
+	}
+
+	startTypewriter();
+}
+
+function scheduleLetterRevealAfterPuzzle() {
+	if (letterRevealStarted) {
+		return;
+	}
+
+	var delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ?
+		0 :
+		LETTER_START_AFTER_PUZZLE_MS;
+
+	setTimeout(beginLetterReveal, delay);
+}
+
 function startTypewriter() {
 	prepareTypewriterText();
 
@@ -602,6 +639,7 @@ function startPuzzleHeart(imageUrls) {
 
 	function boot(images) {
 		if (!images[0] || !images[1]) {
+			scheduleLetterRevealAfterPuzzle();
 			return;
 		}
 
@@ -629,6 +667,7 @@ function startPuzzleHeart(imageUrls) {
 				flowersStarted = true;
 				startFlowerHeart();
 			}
+			scheduleLetterRevealAfterPuzzle();
 		};
 
 		puzzle.start();
@@ -1925,10 +1964,14 @@ function initPage(startDate, imageUrls) {
 		timeElapse(startDate);
 	}, 500);
 
-	startTypewriter();
+	prepareLetterCardWaiting();
 	initBouncingHeart();
 	initStoryPhotos();
 	startPuzzleHeart(imageUrls);
+
+	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		scheduleLetterRevealAfterPuzzle();
+	}
 
 	var clientWidth = $(window).width();
 	var clientHeight = $(window).height();

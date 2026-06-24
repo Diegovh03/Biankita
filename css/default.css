@@ -242,6 +242,32 @@ body {
 	border-radius: 0 0 8px 0;
 }
 
+.letter-card__divider,
+.letter-card__reveal-all,
+.letter-card__inner,
+.letter-card__corner-art,
+.letter-card .signature {
+	transition: opacity 0.7s ease 0.2s, visibility 0.7s ease 0.2s;
+}
+
+.letter-card.is-waiting-heart .letter-card__divider,
+.letter-card.is-waiting-heart .letter-card__reveal-all,
+.letter-card.is-waiting-heart .letter-card__inner,
+.letter-card.is-waiting-heart .letter-card__corner-art,
+.letter-card.is-waiting-heart .signature {
+	visibility: hidden;
+	opacity: 0;
+	max-height: 0;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.letter-card.is-waiting-heart .letter-card__title {
+	margin-bottom: 0;
+}
+
 .letter-card__title {
 	margin: 8px 0 10px;
 	text-align: center;

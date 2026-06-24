@@ -255,12 +255,9 @@ body {
 .letter-card.is-waiting-heart .letter-card__inner,
 .letter-card.is-waiting-heart .letter-card__corner-art,
 .letter-card.is-waiting-heart .signature {
+	display: none;
 	visibility: hidden;
 	opacity: 0;
-	max-height: 0;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
 	pointer-events: none;
 }
 

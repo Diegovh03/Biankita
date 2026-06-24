@@ -3,12 +3,14 @@ var offsetY = 0;
 var heartScale = 1;
 var gardenCtx, gardenCanvas, garden;
 var puzzleComplete = false;
+var flowerHeartComplete = false;
 var flowersStarted = false;
 var letterRevealStopped = false;
 var letterRevealFinishedAt = 0;
 var letterRevealStarted = false;
 var EXPLODE_DELAY_AFTER_LETTER = 10000;
-var LETTER_START_AFTER_PUZZLE_MS = 1800;
+var LETTER_START_AFTER_PUZZLE_MS = 2200;
+var HEART_LIGHTNING_MS = 2000;
 
 function timeElapse(date) {
 	var current = new Date();
@@ -511,14 +513,18 @@ function beginLetterReveal() {
 	startTypewriter();
 }
 
-function scheduleLetterRevealAfterPuzzle() {
+function tryBeginLetterAfterHeartEffect() {
 	if (letterRevealStarted) {
 		return;
 	}
 
+	if (!puzzleComplete || !flowerHeartComplete) {
+		return;
+	}
+
 	var delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ?
-		0 :
-		LETTER_START_AFTER_PUZZLE_MS;
+		300 :
+		Math.max(LETTER_START_AFTER_PUZZLE_MS, HEART_LIGHTNING_MS);
 
 	setTimeout(beginLetterReveal, delay);
 }
@@ -628,6 +634,8 @@ function startFlowerHeart() {
 
 		if (angle >= 30) {
 			clearInterval(animationTimer);
+			flowerHeartComplete = true;
+			tryBeginLetterAfterHeartEffect();
 		} else {
 			angle += 0.2;
 		}
@@ -639,7 +647,9 @@ function startPuzzleHeart(imageUrls) {
 
 	function boot(images) {
 		if (!images[0] || !images[1]) {
-			scheduleLetterRevealAfterPuzzle();
+			puzzleComplete = true;
+			flowerHeartComplete = true;
+			setTimeout(beginLetterReveal, 800);
 			return;
 		}
 
@@ -667,7 +677,7 @@ function startPuzzleHeart(imageUrls) {
 				flowersStarted = true;
 				startFlowerHeart();
 			}
-			scheduleLetterRevealAfterPuzzle();
+			tryBeginLetterAfterHeartEffect();
 		};
 
 		puzzle.start();
@@ -1968,10 +1978,6 @@ function initPage(startDate, imageUrls) {
 	initBouncingHeart();
 	initStoryPhotos();
 	startPuzzleHeart(imageUrls);
-
-	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-		scheduleLetterRevealAfterPuzzle();
-	}
 
 	var clientWidth = $(window).width();
 	var clientHeight = $(window).height();

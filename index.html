@@ -1,103 +1,241 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="es">
 <head>
-<script src="https://kit.fontawesome.com/a14ae32021.js" crossorigin="anonymous"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>This one is for my Varchhu</title>
-
-<style type="text/css">
-@font-face {
-	font-family: digit;
-	src: url('digital-7_mono.ttf') format("truetype");
-}
-</style>
-<link href="css/default.css" type="text/css" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="El Código del amor — una carta para Biankita" />
+<meta name="theme-color" content="#fffdf0" />
+<meta property="og:title" content="El Código del amor — Biankita" />
+<meta property="og:description" content="Algo que quería decirte..." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/foto1.jpg" />
+<title>El Código del amor — Biankita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+<link href="css/default.css" type="text/css" rel="stylesheet" />
+<link href="css/doodles.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/garden.js"></script>
+<script type="text/javascript" src="js/puzzle-heart.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
-
 </head>
-
 <body>
+
+<div id="bouncingHeartsArena" class="bouncing-hearts-arena" aria-hidden="true">
+	<div id="heartRevealBox" class="heart-reveal-box" hidden>
+		<p class="heart-reveal-box__message">Quieres estar conmigo?</p>
+		<canvas id="heartRevealScratch"></canvas>
+		<canvas id="heartRevealDust" aria-hidden="true"></canvas>
+		<p class="heart-reveal-box__hint">Raspa y Gana</p>
+	</div>
+</div>
+
+<div id="pageDoodles" aria-hidden="true"></div>
+
+<header id="topBar">
+	<div class="decor decor-top" aria-hidden="true">
+		<img class="doodle d-top-l1" src="a.png" alt="" />
+		<img class="doodle d-top-l2" src="b.png" alt="" />
+		<img class="doodle d-top-r1" src="c.png" alt="" />
+		<img class="doodle d-top-r2" src="d.png" alt="" />
+		<img class="doodle d-top-e" src="e.png" alt="" />
+		<img class="doodle d-top-f" src="f.png" alt="" />
+		<img class="doodle d-top-g" src="g.png" alt="" />
+		<img class="doodle d-top-h" src="h.png" alt="" />
+		<img class="doodle d-top-i" src="i.png" alt="" />
+		<img class="doodle d-top-j" src="j.png" alt="" />
+		<img class="doodle d-top-k" src="k.png" alt="" />
+	</div>
+	<h1 id="counterTitle">Desde que empecé a sentir bonito <span class="title-heart" aria-hidden="true">♥</span></h1>
+	<p id="counterLead">han pasado</p>
+	<div id="elapseClock"></div>
+	<p id="counterFoot">y aun así siento que apenas estoy empezando a encontrarte.</p>
+</header>
 
 <div id="mainDiv">
 	<div id="content">
+		<div class="main-row">
 		<div id="code">
-			<span class="comments">/**</span><br />
-			<span class="space"/><span class="comments">*THE CODE OF LOVE</span><br />
-			<span class="space"/><span class="comments">*/</span><br />
-			Hey Girl !<br />
-			Do you remember the day we first met?<br />
-			<span class="comments">// The ET-LAB Friday. </span><br />
-			Since that day a spark begun;<br />
-			<span class="comments">// Your face Your Voice Your Words.</span><br />
-			Your everything got imprinted in my heart;<br />
-			As the time went on;<br />
-			The Bond grew stronger and stronger;<br />
-			Journey from Infatuation to Love;<br />
-			We have traveled a long way together;<br />
-			There have been fights ;<br />
-			<span class="comments">// And I'm sure there will be more.</span><br />
-			But our Bond will always grow back Stronger;<br />
-			<br>
-			<br>
-			All I want to say is:<br />
-			Baby, I will love you forever;<br />
-			<br>
-			<br>
-			Now If you want to hug me you can touch the heart below<br />
-			<br>
-			<span id="heartspan">
-			<a href="image.jpg"><i class="fas fa-heart" id="icon"></i></a>
-			</span>
-		</div>
-		<div id="loveHeart">
-			<canvas id="garden"></canvas>
-			<div id="words">
-				<div id="messages">
-					वर्षा ऋतु FOREVER
-					<div id="elapseClock"></div>
-				</div>
-				<div id="loveu">
-					I LOVE YOU SO MUCH<br/>
-					<div class="signature">- RITVIK</div>
-				</div>
+			<div class="decor decor-code" aria-hidden="true">
+				<img class="doodle d-code-a" src="a.png" alt="" />
+				<img class="doodle d-code-b" src="b.png" alt="" />
+				<img class="doodle d-code-c" src="c.png" alt="" />
+				<img class="doodle d-code-d" src="d.png" alt="" />
+				<img class="doodle d-code-e" src="e.png" alt="" />
+				<img class="doodle d-code-f" src="f.png" alt="" />
+				<img class="doodle d-code-g" src="g.png" alt="" />
+				<img class="doodle d-code-h" src="h.png" alt="" />
+				<img class="doodle d-code-i" src="i.png" alt="" />
+				<img class="doodle d-code-j" src="j.png" alt="" />
+				<img class="doodle d-code-k" src="k.png" alt="" />
 			</div>
+			<article class="letter-card">
+				<div class="letter-card__ornament letter-card__ornament--tl" aria-hidden="true"></div>
+				<div class="letter-card__ornament letter-card__ornament--tr" aria-hidden="true"></div>
+				<div class="letter-card__ornament letter-card__ornament--bl" aria-hidden="true"></div>
+				<div class="letter-card__ornament letter-card__ornament--br" aria-hidden="true"></div>
+				<h2 class="letter-card__title">Lo que quería decirte</h2>
+				<div class="letter-card__divider" aria-hidden="true">
+					<span class="letter-card__divider-line"></span>
+					<img class="letter-card__divider-bow" src="b.png" alt="" />
+					<span class="letter-card__divider-line"></span>
+				</div>
+				<button type="button" class="letter-card__reveal-all" id="letterRevealAll">Ver todo el texto</button>
+				<div class="letter-card__inner">
+					<div class="line">A veces las cosas pasan</div>
+					<div class="line">cuando menos lo esperas.</div>
+					<div class="line stanza">Y creo que eso</div>
+					<div class="line">me pasó contigo.</div>
+					<div class="line stanza">No ha pasado tanto tiempo,</div>
+					<div class="line">pero sí ha sido bastante intenso.</div>
+					<div class="line stanza">Solo sé que, poco a poco,</div>
+					<div class="line">empecé a pensarte más.</div>
+					<div class="line">A esperar tus mensajes.</div>
+					<div class="line">A sonreír por tus ocurrencias.</div>
+					<div class="line">A sentir bonito</div>
+					<div class="line">cuando aparecías en mi día.</div>
+					<div class="line stanza">Y si sé que voy a verte a las 4,</div>
+					<div class="line">desde las 3</div>
+					<div class="line">ya empiezo a ser feliz.</div>
+					<div class="line stanza">No fue una sola cosa.</div>
+					<div class="line">Fueron muchas cositas.</div>
+					<div class="line stanza">Tu forma de preocuparte.</div>
+					<div class="line">Tu ternura.</div>
+					<div class="line">Tus mensajes.</div>
+					<div class="line">Tus “son cositas”.</div>
+					<div class="line">Tu manera de cuidar</div>
+					<div class="line">a los que quieres.</div>
+					<div class="line stanza">A tu familia.</div>
+					<div class="line">A los que te rodean.</div>
+					<div class="line">A Ringo, Nala y Toti.</div>
+					<div class="line stanza">Y hasta a mí,</div>
+					<div class="line">cuando me dices que coma,</div>
+					<div class="line">que descanse</div>
+					<div class="line">o que no me duerma tarde.</div>
+					<div class="line stanza highlight">Me encanta cómo eres.</div>
+					<div class="line">Me encanta tu risa,</div>
+					<div class="line">porque de verdad</div>
+					<div class="line">me da años de vida.</div>
+					<div class="line stanza">Me encanta tu sentido del humor,</div>
+					<div class="line">porque puedes pasar</div>
+					<div class="line">de un “te quiero”</div>
+					<div class="line">a desearme 30 latigazos.</div>
+					<div class="line stanza">Y aunque tú odies tu alergia,</div>
+					<div class="line">a mí me parece lo más tierno</div>
+					<div class="line">cuando te tocas la naricita</div>
+					<div class="line">y terminas toda moquientita.</div>
+					<div class="line stanza">No porque me guste verte mal,</div>
+					<div class="line">sino porque incluso así,</div>
+					<div class="line">tan tú,</div>
+					<div class="line">me encantas.</div>
+					<div class="line stanza">Mi dormilona.</div>
+					<div class="line">Mi bonita.</div>
+					<div class="line">Mi moquienta.</div>
+					<div class="line">Mi clasistita.</div>
+					<div class="line stanza">A veces dices</div>
+					<div class="line">que eres distraída</div>
+					<div class="line">u olvidadiza.</div>
+					<div class="line stanza">Pero yo no te veo así.</div>
+					<div class="line">Yo veo a una persona bonita,</div>
+					<div class="line">sensible,</div>
+					<div class="line">cariñosa</div>
+					<div class="line">y con un corazón enorme.</div>
+					<div class="line stanza">Una persona que quizá</div>
+					<div class="line">no siempre se da cuenta</div>
+					<div class="line">de todo lo que vale,</div>
+					<div class="line">pero que se nota</div>
+					<div class="line">a kilómetros.</div>
+					<div class="line stanza highlight">Contigo he sentido algo</div>
+					<div class="line">bonito,</div>
+					<div class="line">intenso</div>
+					<div class="line">y muy real.</div>
+					<div class="line stanza">Algo que fue creciendo</div>
+					<div class="line">poquito a poquito,</div>
+					<div class="line">pero sintiéndose fuerte</div>
+					<div class="line">desde el inicio.</div>
+					<div class="line stanza">Me gusta hablar contigo.</div>
+					<div class="line">Me gusta escucharte.</div>
+					<div class="line">Me gusta cuidarte.</div>
+					<div class="line">Me gusta que te abras conmigo.</div>
+					<div class="line stanza">Me gusta sentir</div>
+					<div class="line">que contigo puedo bromear,</div>
+					<div class="line">hablar de todo</div>
+					<div class="line">y también simplemente</div>
+					<div class="line">ser yo.</div>
+					<div class="line stanza">Y aunque a veces</div>
+					<div class="line">no sé cómo explicar todo esto,</div>
+					<div class="line">hay algo que sí tengo claro:</div>
+					<div class="line highlight">me nace estar contigo.</div>
+					<div class="line stanza">No quiero que esto sea solo</div>
+					<div class="line">un “te quiero mucho”</div>
+					<div class="line">y ya.</div>
+					<div class="line stanza">Quiero que sea algo nuestro.</div>
+					<div class="line">Algo que podamos cuidar,</div>
+					<div class="line">construir</div>
+					<div class="line">y disfrutar juntos.</div>
+					<div class="line stanza highlight">Entonces, bonita…</div>
+				</div>
+				<img class="letter-card__corner-art" src="j.png" alt="" aria-hidden="true" />
+				<p class="signature">— Diego</p>
+			</article>
+		</div>
+
+		<div class="heart-column">
+			<div id="loveHeart">
+				<div class="decor decor-heart" aria-hidden="true">
+					<img class="doodle d-heart-a" src="a.png" alt="" />
+					<img class="doodle d-heart-b" src="b.png" alt="" />
+					<img class="doodle d-heart-c" src="c.png" alt="" />
+					<img class="doodle d-heart-d" src="d.png" alt="" />
+					<img class="doodle d-heart-e" src="e.png" alt="" />
+					<img class="doodle d-heart-f" src="f.png" alt="" />
+					<img class="doodle d-heart-g" src="g.png" alt="" />
+					<img class="doodle d-heart-h" src="h.png" alt="" />
+					<img class="doodle d-heart-i" src="i.png" alt="" />
+					<img class="doodle d-heart-j" src="j.png" alt="" />
+					<img class="doodle d-heart-k" src="k.png" alt="" />
+				</div>
+				<canvas id="puzzleCanvas"></canvas>
+				<canvas id="flowerCanvas"></canvas>
+				<canvas id="heartLightningCanvas" aria-hidden="true"></canvas>
+				<img id="preloadFoto1" src="assets/foto1.jpg" alt="" hidden />
+				<img id="preloadFoto2" src="assets/foto2.jpg" alt="" hidden />
+			</div>
+
+			<section class="photo-moments" id="storyPhotos" aria-label="Momentos contigo">
+				<p class="photo-moments__label">Solamente disfruto la sensación de estar a tu lado</p>
+				<div class="photo-moments__grid">
+					<figure class="photo-moment story-photo" data-photo="1"><div class="photo-moment__frame"><img src="1.jpg" alt="Biankita 1" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="2"><div class="photo-moment__frame"><img src="2.jpg" alt="Biankita 2" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="3"><div class="photo-moment__frame"><img src="3.jpg" alt="Biankita 3" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="4"><div class="photo-moment__frame"><img src="4.jpg" alt="Biankita 4" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="5"><div class="photo-moment__frame"><img src="5.jpg" alt="Biankita 5" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="6"><div class="photo-moment__frame"><img src="6.jpg" alt="Biankita 6" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="7"><div class="photo-moment__frame"><img src="7.jpg" alt="Biankita 7" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="8"><div class="photo-moment__frame"><img src="8.jpg" alt="Biankita 8" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="9"><div class="photo-moment__frame"><img src="9.jpg" alt="Biankita 9" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="10"><div class="photo-moment__frame"><img src="10.jpg" alt="Biankita 10" loading="lazy" /></div></figure>
+					<figure class="photo-moment story-photo" data-photo="11"><div class="photo-moment__frame"><img src="11.jpg" alt="Biankita 11" loading="lazy" /></div></figure>
+				</div>
+			</section>
+		</div>
 		</div>
 	</div>
 </div>
 
+<div class="bottom-clouds" aria-hidden="true"></div>
+
 <script type="text/javascript">
-var offsetX = $("#loveHeart").width() / 2;
-var offsetY = $("#loveHeart").height() / 2 - 55;
-var together = new Date();
-together.setFullYear(2016, 8, 5);
-together.setHours(16);
-together.setMinutes(30);
-together.setSeconds(0);
-together.setMilliseconds(0);
+var together = new Date(2026, 4, 16, 3, 0, 0, 0);
 
 if (!document.createElement('canvas').getContext) {
-	var msg = document.createElement("div");
-	msg.id = "errorMsg";
-	msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+"; 
-	document.body.appendChild(msg);
-	$("#code").css("display", "none")
-	$("#copyright").css("position", "absolute");
-	$("#copyright").css("bottom", "10px");
-	document.execCommand("stop");
+	document.body.innerHTML = '<div id="errorMsg">Tu navegador no soporta HTML5.<br/>Usa Chrome, Firefox o Safari reciente.</div>';
 } else {
-	setTimeout(function () {
-		startHeartAnimation();
-	}, 5000);
-
-	timeElapse(together);
-	setInterval(function () {
-		timeElapse(together);
-	}, 500);
-
-	adjustCodePosition();
-	$("#code").typewriter();
+	initPage(together, [
+		'assets/foto1.jpg',
+		'assets/foto2.jpg'
+	]);
 }
 </script>
 </body>

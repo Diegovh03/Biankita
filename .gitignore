@@ -1,0 +1,15 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / Cursor
+.cursor/
+*.log
+
+# Carpeta auxiliar (no es parte del sitio)
+love-website-generator/
+
+# Fotos sueltas de prueba (las que usa la web están en la raíz o assets/)
+e7461d46-*.jpg
+3bf7969f-*.jpg

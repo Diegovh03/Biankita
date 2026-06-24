@@ -1,0 +1,35 @@
+═══════════════════════════════════════════════════════
+  CÓMO PUBLICAR "EL CÓDIGO DEL AMOR" EN INTERNET
+═══════════════════════════════════════════════════════
+
+PASO 1 — Probar en tu PC
+  • Abre PowerShell en esta carpeta
+  • Ejecuta:  npx serve .
+  • Abre el enlace que aparece en el navegador
+
+PASO 2 — Subir a GitHub
+  1. Crea repo nuevo en github.com (ej: biankita-amor)
+  2. En PowerShell:
+
+     cd C:\Users\diegova\Desktop\Biankita
+     git remote remove origin
+     git remote add origin https://github.com/TU_USUARIO/biankita-amor.git
+     git add .
+     git commit -m "Publicar pagina para Biankita"
+     git branch -M main
+     git push -u origin main
+
+PASO 3 — Activar GitHub Pages
+  • Repo → Settings → Pages
+  • Source: branch "main", carpeta "/ (root)"
+  • Guardar → esperar 2 minutos
+  • Tu link: https://TU_USUARIO.github.io/biankita-amor/
+
+ALTERNATIVA RÁPIDA (sin Git)
+  • Entra a app.netlify.com/drop
+  • Arrastra la carpeta Biankita
+  • Copia el link que te dan
+
+═══════════════════════════════════════════════════════
+
+Más detalle en README.md

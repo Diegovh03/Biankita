@@ -1,0 +1,179 @@
+/* Ilustraciones a.png–k.png salpicadas por toda la página */
+
+body {
+	position: relative;
+	overflow-x: hidden;
+	background-color: var(--cream);
+}
+
+#pageDoodles {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	min-height: 100vh;
+	pointer-events: none;
+	z-index: 0;
+	overflow: hidden;
+}
+
+.decor {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	overflow: visible;
+}
+
+#topBar,
+#mainDiv,
+#content,
+.heart-column,
+.photo-moments {
+	position: relative;
+	z-index: 1;
+	overflow: visible;
+}
+
+#code {
+	position: relative;
+	overflow: visible;
+}
+
+#code .line,
+#code .signature {
+	position: relative;
+	z-index: 1;
+}
+
+#loveHeart .decor-heart {
+	z-index: 3;
+}
+
+#puzzleCanvas,
+#flowerCanvas {
+	z-index: 1;
+}
+
+#topBar > h1,
+#topBar > p,
+#topBar > #elapseClock {
+	position: relative;
+	z-index: 1;
+}
+
+.doodle {
+	position: absolute;
+	display: block;
+	object-fit: contain;
+	object-position: center;
+	pointer-events: none;
+	user-select: none;
+	mix-blend-mode: multiply;
+}
+
+.doodle-scatter {
+	opacity: 0.72;
+}
+
+/* ── Contador ── */
+.decor-top .doodle {
+	width: 64px;
+	height: 64px;
+	opacity: 0.82;
+}
+
+.d-top-l1 { top: 2px;  left: 1%;  transform: rotate(-5deg); }
+.d-top-l2 { top: 12px; left: 9%;  transform: rotate(4deg); width: 52px; height: 52px; opacity: 0.72; }
+.d-top-r1 { top: 2px;  right: 1%; transform: rotate(4deg); }
+.d-top-r2 { top: 12px; right: 9%; transform: rotate(-3deg); width: 52px; height: 52px; opacity: 0.72; }
+.d-top-e  { top: 6px;  left: 20%; transform: rotate(-8deg); width: 48px; height: 48px; opacity: 0.76; }
+.d-top-f  { top: 5px;  right: 20%; transform: rotate(7deg); width: 48px; height: 48px; opacity: 0.76; }
+.d-top-g  { top: 16px; left: 32%; transform: rotate(5deg); width: 44px; height: 44px; opacity: 0.7; }
+.d-top-h  { top: 14px; right: 32%; transform: rotate(-6deg); width: 44px; height: 44px; opacity: 0.7; }
+.d-top-i  { top: 22px; left: 44%; transform: rotate(-4deg); width: 42px; height: 42px; opacity: 0.68; }
+.d-top-j  { top: 20px; right: 44%; transform: rotate(6deg); width: 42px; height: 42px; opacity: 0.68; }
+.d-top-k  { top: 10px; left: 50%; transform: translateX(-50%) rotate(-3deg); width: 46px; height: 46px; opacity: 0.74; }
+
+/* ── Carta (todos a–k) ── */
+.decor-code .doodle {
+	width: 52px;
+	height: 52px;
+	opacity: 0.74;
+}
+
+.d-code-a { top: 0;     left: -8px; transform: rotate(-7deg); }
+.d-code-b { top: 18%;   left: -6px; transform: rotate(5deg); width: 46px; height: 46px; opacity: 0.64; }
+.d-code-c { top: 36%;   left: -8px; transform: rotate(-4deg); width: 44px; height: 44px; opacity: 0.62; }
+.d-code-d { top: 54%;   left: -6px; transform: rotate(6deg); width: 46px; height: 46px; opacity: 0.64; }
+.d-code-e { top: 72%;   left: -8px; transform: rotate(-5deg); width: 44px; height: 44px; opacity: 0.62; }
+.d-code-f { top: 88%;   left: -6px; transform: rotate(4deg); width: 42px; height: 42px; opacity: 0.6; }
+.d-code-g { top: 4%;    right: -8px; transform: rotate(6deg); }
+.d-code-h { top: 22%;  right: -6px; transform: rotate(-5deg); width: 46px; height: 46px; opacity: 0.64; }
+.d-code-i { top: 40%;  right: -8px; transform: rotate(4deg); width: 44px; height: 44px; opacity: 0.62; }
+.d-code-j { top: 58%;  right: -6px; transform: rotate(-6deg); width: 46px; height: 46px; opacity: 0.64; }
+.d-code-k { top: 76%;  right: -8px; transform: rotate(5deg); width: 44px; height: 44px; opacity: 0.62; }
+
+/* ── Corazón (todos a–k) ── */
+.decor-heart .doodle {
+	width: 54px;
+	height: 54px;
+	opacity: 0.76;
+}
+
+.d-heart-a { top: 1%;  left: 0;  transform: rotate(-5deg); }
+.d-heart-b { top: 3%;  right: 0; transform: rotate(4deg); }
+.d-heart-c { top: 22%; left: 0; transform: rotate(3deg); width: 48px; height: 48px; opacity: 0.66; }
+.d-heart-d { top: 24%; right: 0; transform: rotate(-4deg); width: 48px; height: 48px; opacity: 0.66; }
+.d-heart-e { top: 44%; right: -4px; transform: rotate(6deg); width: 44px; height: 44px; opacity: 0.6; }
+.d-heart-f { top: 42%; left: -4px; transform: rotate(-7deg); width: 44px; height: 44px; opacity: 0.6; }
+.d-heart-g { top: 62%; left: 0; transform: rotate(8deg); width: 42px; height: 42px; opacity: 0.58; }
+.d-heart-h { top: 64%; right: 0; transform: rotate(-6deg); width: 42px; height: 42px; opacity: 0.58; }
+.d-heart-i { bottom: 22%; left: 0; transform: rotate(5deg); width: 44px; height: 44px; opacity: 0.6; }
+.d-heart-j { bottom: 20%; right: 0; transform: rotate(-5deg); width: 44px; height: 44px; opacity: 0.6; }
+.d-heart-k { bottom: 2%; left: 50%; transform: translateX(-50%) rotate(3deg); width: 46px; height: 46px; opacity: 0.64; }
+
+@media (max-width: 960px) {
+	.doodle-scatter {
+		opacity: 0.66;
+	}
+
+	.decor-top .doodle {
+		width: 46px;
+		height: 46px;
+		opacity: 0.72;
+	}
+
+	.d-top-i, .d-top-j {
+		display: none;
+	}
+
+	.decor-code .doodle,
+	.decor-heart .doodle {
+		width: 42px;
+		height: 42px;
+		opacity: 0.62;
+	}
+
+	.d-code-c, .d-code-d, .d-code-e, .d-code-f,
+	.d-code-h, .d-code-i, .d-code-j,
+	.d-heart-c, .d-heart-d, .d-heart-g, .d-heart-h, .d-heart-i, .d-heart-j {
+		display: none;
+	}
+}
+
+@media (max-width: 480px) {
+	.doodle-scatter {
+		opacity: 0.6;
+	}
+
+	.decor-top .doodle {
+		width: 40px;
+		height: 40px;
+	}
+
+	.d-top-g, .d-top-h, .d-top-k {
+		display: none;
+	}
+}

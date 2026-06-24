@@ -11,7 +11,7 @@ function buildMailto(email) {
 	var body = encodeURIComponent(
 		"Hola,\n\nTe envio el enlace de tu carta:\n\n" +
 			CARTA_URL +
-			"\n\nAbrelo desde tu laptop para que se vea mejor.\n\nCon carino,\nDiego"
+			"\n\nAbrelo desde tu laptop para que se vea mejor.\n\nCon cariño,\nDiego"
 	);
 
 	return "mailto:" + encodeURIComponent(email) + "?subject=" + subject + "&body=" + body;

@@ -19,7 +19,7 @@ function doPost(e) {
 			"Te envio el enlace de tu carta:\n\n" +
 			CARTA_URL +
 			"\n\nAbrelo desde tu laptop para que se vea mejor.\n\n" +
-			"Con carino,\nDiego"
+			"Con cariño,\nDiego"
 	);
 
 	return HtmlService.createHtmlOutput(

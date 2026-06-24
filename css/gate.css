@@ -156,6 +156,13 @@ body.gate-page {
 	transform: none;
 }
 
+.gate-card__note--url {
+	word-break: break-all;
+	font-family: "Fira Code", Consolas, monospace;
+	font-size: 12px;
+	opacity: 0.85;
+}
+
 .gate-card--success .gate-card__lead {
 	margin-bottom: 18px;
 }

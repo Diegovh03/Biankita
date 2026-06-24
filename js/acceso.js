@@ -15,9 +15,11 @@ function parseEmails(value) {
 
 function sendLinkToEmail(targetEmail) {
 	var autoresponse =
-		"Hola 💜\n\nAquí está tu enlace:\n\n" +
-		CARTA_URL +
-		"\n\nÁbrelo desde el celular para que se vea mejor.\n\nCon cariño,\nDiego";
+		"Hola,\n\n" +
+		"Abre tu carta con este enlace (toca el boton o el link azul):\n\n" +
+		CARTA_URL + "index.html\n\n" +
+		"Si no funciona, copia y pega toda la direccion incluyendo Biankita/index.html\n\n" +
+		"Con carino,\nDiego";
 
 	return fetch("https://formsubmit.co/ajax/" + encodeURIComponent(ACCESO_OWNER_EMAIL), {
 		method: "POST",
@@ -27,9 +29,8 @@ function sendLinkToEmail(targetEmail) {
 		},
 		body: JSON.stringify({
 			email: targetEmail,
-			_subject: "Tu enlace — El Código del amor",
+			_subject: "Tu enlace — El Codigo del amor",
 			_autoresponse: autoresponse,
-			_template: "table",
 			_captcha: "false"
 		})
 	});

@@ -36,7 +36,8 @@
 
 	<p id="accesoStatus" class="gate-status" role="status"></p>
 
-	<a class="gate-link-btn" href="https://diegovh03.github.io/Biankita/" hidden id="accesoDirectLink">Abrir la carta aquí</a>
+	<a class="gate-link-btn" href="https://diegovh03.github.io/Biankita/index.html" hidden id="accesoDirectLink">Abrir la carta aquí</a>
+	<p class="gate-card__note gate-card__note--url" hidden id="accesoUrlCopy">https://diegovh03.github.io/Biankita/index.html</p>
 	<p class="gate-card__note">Si no llega el correo, revisa la carpeta de spam.</p>
 </main>
 
@@ -46,8 +47,14 @@
 	var card = document.querySelector(".gate-card");
 	var link = document.getElementById("accesoDirectLink");
 	var observer = new MutationObserver(function () {
-		if (card.classList.contains("gate-card--success") && link) {
-			link.hidden = false;
+		if (card.classList.contains("gate-card--success")) {
+			if (link) {
+				link.hidden = false;
+			}
+			var urlCopy = document.getElementById("accesoUrlCopy");
+			if (urlCopy) {
+				urlCopy.hidden = false;
+			}
 		}
 	});
 	if (card) {

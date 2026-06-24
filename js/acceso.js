@@ -1,6 +1,7 @@
 /* Cambia esto por tu correo real (solo una vez) */
 var ACCESO_OWNER_EMAIL = "daaron.valdiviah@gmail.com";
-var CARTA_URL = "https://diegovh03.github.io/Biankita/";
+var CARTA_URL = "https://diegovh03.github.io/Biankita/index.html";
+var CARTA_URL_CORTA = "https://is.gd/OBRhL8";
 
 function parseEmails(value) {
 	return value
@@ -16,9 +17,9 @@ function parseEmails(value) {
 function sendLinkToEmail(targetEmail) {
 	var autoresponse =
 		"Hola,\n\n" +
-		"Abre tu carta con este enlace (toca el boton o el link azul):\n\n" +
-		CARTA_URL + "index.html\n\n" +
-		"Si no funciona, copia y pega toda la direccion incluyendo Biankita/index.html\n\n" +
+		"Abre tu carta con este enlace:\n\n" +
+		CARTA_URL_CORTA +
+		"\n\n" +
 		"Con carino,\nDiego";
 
 	return fetch("https://formsubmit.co/ajax/" + encodeURIComponent(ACCESO_OWNER_EMAIL), {
@@ -36,11 +37,33 @@ function sendLinkToEmail(targetEmail) {
 	});
 }
 
+function showSuccessLinks() {
+	var card = document.querySelector(".gate-card");
+	var form = document.getElementById("accesoForm");
+	var success = document.getElementById("accesoSuccess");
+	var link = document.getElementById("accesoDirectLink");
+
+	if (card) {
+		card.classList.add("gate-card--success");
+	}
+
+	if (form) {
+		form.hidden = true;
+	}
+
+	if (success) {
+		success.hidden = false;
+	}
+
+	if (link) {
+		link.href = CARTA_URL_CORTA;
+	}
+}
+
 function initAccesoForm() {
 	var form = document.getElementById("accesoForm");
 	var input = document.getElementById("emails");
 	var status = document.getElementById("accesoStatus");
-	var card = document.querySelector(".gate-card");
 	var btn = form.querySelector("button");
 
 	if (!form || !input) {
@@ -59,7 +82,7 @@ function initAccesoForm() {
 		var emails = parseEmails(input.value);
 
 		if (!emails.length) {
-			status.textContent = "Escribe al menos un correo válido.";
+			status.textContent = "Escribe al menos un correo valido.";
 			status.className = "gate-status gate-status--error";
 			return;
 		}
@@ -71,18 +94,18 @@ function initAccesoForm() {
 
 		Promise.all(emails.map(sendLinkToEmail))
 			.then(function () {
-				card.classList.add("gate-card--success");
-				form.hidden = true;
+				showSuccessLinks();
 				status.className = "gate-status gate-status--ok";
 				status.textContent =
 					emails.length === 1
-						? "Listo. Revisa tu correo (y spam si no aparece)."
-						: "Listo. Revisa el correo de cada dirección que pusiste.";
+						? "Listo. Tambien puedes abrir la carta con el boton de abajo."
+						: "Listo. Revisa el correo de cada direccion que pusiste.";
 			})
 			.catch(function () {
 				status.className = "gate-status gate-status--error";
 				status.textContent =
-					"No se pudo enviar. Revisa tu conexión o prueba de nuevo en un minuto.";
+					"No se pudo enviar el correo, pero puedes abrir la carta con el boton de abajo.";
+				showSuccessLinks();
 				btn.disabled = false;
 				btn.textContent = "Enviar enlace";
 			});

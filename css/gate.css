@@ -181,6 +181,21 @@ body.gate-page {
 	border: 1px solid rgba(123, 94, 167, 0.2);
 }
 
+.gate-link-btn--big {
+	display: block;
+	width: 100%;
+	padding: 16px 20px;
+	background: linear-gradient(120deg, #8b6fd8 0%, #c45c7a 100%);
+	color: #fff;
+	border: none;
+	box-shadow: 0 10px 24px rgba(154, 77, 122, 0.22);
+	text-align: center;
+}
+
+.gate-success {
+	margin-top: 16px;
+}
+
 @keyframes gateFade {
 	from {
 		opacity: 0;

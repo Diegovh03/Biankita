@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Déjame tu correo y te envío el enlace" />
+<meta name="description" content="Dejame tu correo y te envio el enlace" />
 <meta name="theme-color" content="#fffdf0" />
 <meta name="robots" content="noindex, nofollow" />
-<title>El Código del amor</title>
+<title>El Codigo del amor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
@@ -17,7 +17,7 @@
 <main class="gate-card">
 	<span class="gate-card__heart" aria-hidden="true">♥</span>
 	<h1 class="gate-card__title">Algo especial te espera</h1>
-	<p class="gate-card__lead">Déjame tu correo y te envío el enlace para abrirlo.</p>
+	<p class="gate-card__lead">Dejame tu correo y te envio el enlace para abrirlo.</p>
 
 	<form id="accesoForm" class="gate-form">
 		<label for="emails">Tu correo</label>
@@ -36,32 +36,14 @@
 
 	<p id="accesoStatus" class="gate-status" role="status"></p>
 
-	<a class="gate-link-btn" href="https://diegovh03.github.io/Biankita/index.html" hidden id="accesoDirectLink">Abrir la carta aquí</a>
-	<p class="gate-card__note gate-card__note--url" hidden id="accesoUrlCopy">https://diegovh03.github.io/Biankita/index.html</p>
+	<div id="accesoSuccess" class="gate-success" hidden>
+		<a class="gate-link-btn gate-link-btn--big" href="https://is.gd/OBRhL8" id="accesoDirectLink">Abrir la carta aqui</a>
+		<p class="gate-card__note">Tambien te llegara al correo. Si no abre, usa este boton.</p>
+	</div>
+
 	<p class="gate-card__note">Si no llega el correo, revisa la carpeta de spam.</p>
 </main>
 
 <script src="js/acceso.js"></script>
-<script>
-(function () {
-	var card = document.querySelector(".gate-card");
-	var link = document.getElementById("accesoDirectLink");
-	var observer = new MutationObserver(function () {
-		if (card.classList.contains("gate-card--success")) {
-			if (link) {
-				link.hidden = false;
-			}
-			var urlCopy = document.getElementById("accesoUrlCopy");
-			if (urlCopy) {
-				urlCopy.hidden = false;
-			}
-		}
-	});
-	if (card) {
-		observer.observe(card, { attributes: true, attributeFilter: ["class"] });
-	}
-})();
-</script>
-
 </body>
 </html>

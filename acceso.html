@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Dejame tu correo y abre tu carta" />
+<meta name="description" content="Dejame tu correo y te envio el enlace" />
 <meta name="theme-color" content="#fffdf0" />
 <meta name="robots" content="noindex, nofollow" />
 <title>El Codigo del amor</title>
@@ -17,7 +17,7 @@
 <main class="gate-card">
 	<span class="gate-card__heart" aria-hidden="true">♥</span>
 	<h1 class="gate-card__title">Algo especial te espera</h1>
-	<p class="gate-card__lead" id="accesoLead">Dejame tu correo y te muestro el enlace para abrirlo.</p>
+	<p class="gate-card__lead" id="accesoLead">Dejame tu correo y te envio el enlace para abrirlo.</p>
 
 	<form id="accesoForm" class="gate-form">
 		<label for="emails">Tu correo</label>
@@ -31,16 +31,11 @@
 			required
 		/>
 
-		<button type="submit">Ver mi carta</button>
+		<button type="submit">Enviar enlace</button>
 	</form>
 
 	<p id="accesoStatus" class="gate-status" role="status"></p>
-
-	<div id="accesoSuccess" class="gate-success" hidden>
-		<a class="gate-link-btn gate-link-btn--big" href="https://is.gd/OBRhL8" id="accesoDirectLink">Abrir la carta aqui</a>
-	</div>
-
-	<p class="gate-card__note" id="accesoBottomNote">Si no llega el correo, usa el boton despues de enviar.</p>
+	<p class="gate-card__note" id="accesoBottomNote" hidden></p>
 </main>
 
 <script src="js/acceso.js"></script>

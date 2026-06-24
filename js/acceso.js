@@ -1,5 +1,4 @@
 var ACCESO_OWNER_EMAIL = "daaron.valdiviah@gmail.com";
-var CARTA_URL = "https://diegovh03.github.io/Biankita/index.html";
 var CARTA_URL_CORTA = "https://is.gd/OBRhL8";
 
 function parseEmails(value) {
@@ -15,9 +14,11 @@ function parseEmails(value) {
 
 function sendLinkToEmail(targetEmail) {
 	var autoresponse =
-		"Hola,\n\nAbre tu carta aqui:\n\n" +
+		"Hola,\n\n" +
+		"Aqui esta tu enlace:\n\n" +
 		CARTA_URL_CORTA +
-		"\n\nCon carino,\nDiego";
+		"\n\nAbrelo desde tu laptop para que se vea mejor.\n\n" +
+		"Con carino,\nDiego";
 
 	return fetch("https://formsubmit.co/ajax/" + encodeURIComponent(ACCESO_OWNER_EMAIL), {
 		method: "POST",
@@ -34,12 +35,10 @@ function sendLinkToEmail(targetEmail) {
 	});
 }
 
-function showSuccessLinks() {
+function showSuccessMessage() {
 	var card = document.querySelector(".gate-card");
 	var form = document.getElementById("accesoForm");
 	var lead = document.getElementById("accesoLead");
-	var success = document.getElementById("accesoSuccess");
-	var link = document.getElementById("accesoDirectLink");
 	var note = document.getElementById("accesoBottomNote");
 
 	if (card) {
@@ -51,20 +50,13 @@ function showSuccessLinks() {
 	}
 
 	if (lead) {
-		lead.textContent = "Listo. Abre tu carta con este boton:";
-	}
-
-	if (success) {
-		success.hidden = false;
-	}
-
-	if (link) {
-		link.href = CARTA_URL_CORTA;
+		lead.textContent = "Listo. Te enviamos el enlace a tu correo.";
 	}
 
 	if (note) {
+		note.hidden = false;
 		note.textContent =
-			"Tambien intentamos enviarte el enlace al correo. Si no llega, usa el boton de arriba.";
+			"Abrelo desde tu laptop cuando lo recibas. Si no aparece en un minuto, revisa la carpeta de spam.";
 	}
 }
 
@@ -90,19 +82,23 @@ function initAccesoForm() {
 		}
 
 		btn.disabled = true;
-		btn.textContent = "Un momento…";
+		btn.textContent = "Enviando…";
 		status.textContent = "";
 		status.className = "gate-status";
 
-		showSuccessLinks();
-		status.className = "gate-status gate-status--ok";
-		status.textContent = "Tu carta ya esta lista para abrir.";
-
-		emails.forEach(function (targetEmail) {
-			sendLinkToEmail(targetEmail).catch(function () {
-				/* El boton en pantalla siempre funciona aunque falle el correo */
+		Promise.all(emails.map(sendLinkToEmail))
+			.then(function () {
+				showSuccessMessage();
+				status.className = "gate-status gate-status--ok";
+				status.textContent = "";
+			})
+			.catch(function () {
+				status.className = "gate-status gate-status--error";
+				status.textContent =
+					"No se pudo enviar. Revisa tu conexion e intenta de nuevo.";
+				btn.disabled = false;
+				btn.textContent = "Enviar enlace";
 			});
-		});
 	});
 }
 

@@ -4,10 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
-<title>Enlace enviado</title>
+<title>Tu carta te espera</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
 <link href="css/gate.css" type="text/css" rel="stylesheet" />
 </head>
 <body class="gate-page">
@@ -15,20 +15,58 @@
 <main class="gate-card gate-card--success">
 	<span class="gate-card__heart" aria-hidden="true">♥</span>
 	<h1 class="gate-card__title">Listo</h1>
-	<p class="gate-card__lead" id="enviadoLead">Te enviamos el enlace a tu correo.</p>
-	<p class="gate-card__note" id="enviadoNote">Abrelo desde tu laptop cuando lo recibas. Revisa spam si no aparece en un minuto.</p>
+	<p class="gate-card__lead">Abre tu carta <strong>desde la laptop</strong> con este enlace:</p>
+
+	<p class="gate-link-box" id="linkBox">https://is.gd/OBRhL8</p>
+
+	<button type="button" class="gate-link-btn gate-link-btn--big" id="copyBtn">Copiar enlace</button>
+
+	<a
+		class="gate-link-btn gate-link-btn--wa"
+		id="waBtn"
+		href="https://wa.me/?text=Abre%20tu%20carta%20desde%20la%20laptop%3A%20https%3A%2F%2Fis.gd%2FOBRhL8"
+		target="_blank"
+		rel="noopener"
+	>Enviarme el enlace por WhatsApp</a>
+
+	<ol class="gate-steps">
+		<li>Pulsa <strong>Copiar enlace</strong> o <strong>WhatsApp</strong>.</li>
+		<li>Si usas WhatsApp, enviatelo a ti misma (o pidele a alguien que te lo reenvie).</li>
+		<li>Abre el enlace en la <strong>laptop</strong>, no en el celular.</li>
+	</ol>
+
+	<p class="gate-card__note" id="copyStatus"></p>
 </main>
 
 <script>
 (function () {
-	var params = new URLSearchParams(window.location.search);
-	var lead = document.getElementById("enviadoLead");
-	var note = document.getElementById("enviadoNote");
+	var CARTA_URL = "https://is.gd/OBRhL8";
+	var copyBtn = document.getElementById("copyBtn");
+	var status = document.getElementById("copyStatus");
 
-	if (params.get("modo") === "borrador" && lead && note) {
-		lead.textContent = "Casi listo — falta un paso.";
-		note.textContent =
-			"Se abrio tu app de correo con el enlace ya escrito. Pulsa Enviar alli. Luego abrelo desde tu laptop (revisa spam si no aparece).";
+	copyBtn.addEventListener("click", function () {
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			navigator.clipboard.writeText(CARTA_URL).then(function () {
+				status.textContent = "Enlace copiado. Pegalo en la laptop o en WhatsApp.";
+			}).catch(fallbackCopy);
+		} else {
+			fallbackCopy();
+		}
+	});
+
+	function fallbackCopy() {
+		var box = document.getElementById("linkBox");
+		var range = document.createRange();
+		range.selectNodeContents(box);
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
+		try {
+			document.execCommand("copy");
+			status.textContent = "Enlace copiado. Pegalo en la laptop o en WhatsApp.";
+		} catch (e) {
+			status.textContent = "Selecciona el enlace de arriba y copialo manualmente.";
+		}
 	}
 })();
 </script>

@@ -40,57 +40,9 @@
 	</p>
 </main>
 
-<script>
-(function () {
-	var ENVIADO_URL = "https://diegovh03.github.io/Biankita/enviado.html";
-	var SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8fBHPwiZ8z6Yn_7Xu5Ebl5qAQd0RXGtxt9D78AogsLuemHkRtFia4wLMIZoe4iAJjnQ/exec";
-	var form = document.getElementById("accesoForm");
-	var input = document.getElementById("email");
-	var status = document.getElementById("accesoStatus");
-	var btn = form.querySelector("button");
-
-	form.addEventListener("submit", function (event) {
-		event.preventDefault();
-
-		var email = input.value.trim().toLowerCase();
-
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-			status.className = "gate-status gate-status--error";
-			status.textContent = "Escribe un correo valido.";
-			return;
-		}
-
-		btn.disabled = true;
-		btn.textContent = "Enviando…";
-		status.className = "gate-status";
-		status.textContent = "";
-
-		var body = new URLSearchParams();
-		body.append("email", email);
-
-		var done = false;
-
-		function irEnviado() {
-			if (done) {
-				return;
-			}
-			done = true;
-			window.location.href = ENVIADO_URL;
-		}
-
-		fetch(SCRIPT_URL, {
-			method: "POST",
-			mode: "no-cors",
-			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			body: body.toString()
-		})
-			.then(irEnviado)
-			.catch(irEnviado);
-
-		setTimeout(irEnviado, 3500);
-	});
-})();
-</script>
+<iframe id="googleScriptFrame" name="googleScriptFrame" title="Envio de correo" style="display:none" aria-hidden="true"></iframe>
+<script type="text/javascript" src="js/google-config.js"></script>
+<script type="text/javascript" src="js/acceso-envio.js?v=20260625"></script>
 
 </body>
 </html>

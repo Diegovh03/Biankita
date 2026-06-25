@@ -7,19 +7,24 @@ if (-not (Test-Path $node)) {
 	$node = "node"
 }
 
-Write-Host "Capturando screenshot de la pagina completa (puede tardar ~30-60 segundos)..."
-Write-Host "Estado: corazon armado + carta completa, antes de la explosion de corazones."
+Write-Host "Capturando 2 paginas: carta con corazones + propuesta a medio raspar..."
+Write-Host "Puede tardar ~45-60 segundos."
 
 & $node (Join-Path $PSScriptRoot "capture-screenshot.js")
 
 $pdf = Join-Path $root "Biankita-carta-completa.pdf"
-$png = Join-Path $root "Biankita-captura-completa.png"
+$png1 = Join-Path $root "Biankita-captura-carta.png"
+$png2 = Join-Path $root "Biankita-captura-propuesta.png"
 
 if (Test-Path $pdf) {
 	$sizeMb = [math]::Round((Get-Item $pdf).Length / 1MB, 2)
 	Write-Host "PDF listo: $pdf ($sizeMb MB)"
 }
 
-if (Test-Path $png) {
-	Write-Host "PNG listo: $png"
+if (Test-Path $png1) {
+	Write-Host "PNG carta: $png1"
+}
+
+if (Test-Path $png2) {
+	Write-Host "PNG propuesta: $png2"
 }

@@ -1352,22 +1352,32 @@ body.letter-locked #code .line.visible {
 	}
 }
 
-body.modo-pdf .bouncing-hearts-arena,
 body.modo-pdf #pageDoodles {
 	display: none !important;
 }
 
-body.modo-pdf.pdf-ready .letter-card__divider,
-body.modo-pdf.pdf-ready .letter-card__inner,
-body.modo-pdf.pdf-ready .letter-card__corner-art,
-body.modo-pdf.pdf-ready .letter-card .signature,
-body.modo-pdf.pdf-ready #code .line {
+body.modo-pdf.pdf-ready-main .letter-card__divider,
+body.modo-pdf.pdf-ready-main .letter-card__inner,
+body.modo-pdf.pdf-ready-main .letter-card__corner-art,
+body.modo-pdf.pdf-ready-main .letter-card .signature,
+body.modo-pdf.pdf-ready-main #code .line {
 	display: block !important;
 	visibility: visible !important;
 	opacity: 1 !important;
 }
 
-body.modo-pdf.pdf-ready .letter-card__reveal-all {
+body.modo-pdf.pdf-ready-main .letter-card__reveal-all {
+	display: none !important;
+}
+
+body.modo-pdf.pdf-ready-main .bouncing-hearts-arena {
+	display: block !important;
+	opacity: 1 !important;
+}
+
+body.modo-pdf.pdf-ready-proposal #mainDiv,
+body.modo-pdf.pdf-ready-proposal #topBar,
+body.modo-pdf.pdf-ready-proposal #pageDoodles {
 	display: none !important;
 }
 

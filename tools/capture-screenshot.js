@@ -8,7 +8,8 @@ var root = path.join(__dirname, "..");
 var port = Number(process.env.PORT || 8765);
 var debugPort = Number(process.env.DEBUG_PORT || 9222);
 var pageUrl = process.env.PAGE_URL || ("http://127.0.0.1:" + port + "/index.html?pdf=1&v=20260625");
-var pngOut = process.env.PNG_OUT || path.join(root, "Biankita-captura-completa.png");
+var pngMain = process.env.PNG_MAIN || path.join(root, "Biankita-captura-carta.png");
+var pngProposal = process.env.PNG_PROPOSAL || path.join(root, "Biankita-captura-propuesta.png");
 var pdfOut = process.env.PDF_OUT || path.join(root, "Biankita-carta-completa.pdf");
 
 var chrome = process.env.CHROME_PATH || path.join(
@@ -139,6 +140,84 @@ async function getPageTarget() {
 	return page;
 }
 
+async function waitForClass(ws, className, attempts) {
+	var i;
+	var check;
+
+	for (i = 0; i < attempts; i++) {
+		check = await cdpSend(ws, "Runtime.evaluate", {
+			expression: "document.body && document.body.classList.contains('" + className + "')",
+			returnByValue: true
+		});
+		if (check && check.result && check.result.value) {
+			return true;
+		}
+		await sleep(500);
+	}
+
+	return false;
+}
+
+async function captureFullPage(ws) {
+	await cdpSend(ws, "Emulation.setDeviceMetricsOverride", {
+		width: 1440,
+		height: 900,
+		deviceScaleFactor: 1,
+		mobile: false
+	});
+
+	await sleep(600);
+
+	var metrics = await cdpSend(ws, "Page.getLayoutMetrics");
+	var content = metrics.contentSize || metrics.cssContentSize;
+	var width = Math.ceil(content.width);
+	var height = Math.ceil(content.height);
+
+	await cdpSend(ws, "Emulation.setDeviceMetricsOverride", {
+		width: width,
+		height: height,
+		deviceScaleFactor: 1,
+		mobile: false
+	});
+
+	await sleep(800);
+
+	var shot = await cdpSend(ws, "Page.captureScreenshot", {
+		format: "png",
+		fromSurface: true,
+		captureBeyondViewport: true
+	});
+
+	return {
+		data: shot.data,
+		width: width,
+		height: height
+	};
+}
+
+async function captureViewport(ws, width, height) {
+	await cdpSend(ws, "Emulation.setDeviceMetricsOverride", {
+		width: width,
+		height: height,
+		deviceScaleFactor: 1,
+		mobile: false
+	});
+
+	await sleep(800);
+
+	var shot = await cdpSend(ws, "Page.captureScreenshot", {
+		format: "png",
+		fromSurface: true,
+		captureBeyondViewport: false
+	});
+
+	return {
+		data: shot.data,
+		width: width,
+		height: height
+	};
+}
+
 async function captureScreenshot() {
 	var server = await startServer();
 	var chromeProc = startChrome(pageUrl);
@@ -156,58 +235,36 @@ async function captureScreenshot() {
 
 		await cdpSend(ws, "Page.enable");
 		await cdpSend(ws, "Runtime.enable");
-		await cdpSend(ws, "Emulation.setDeviceMetricsOverride", {
-			width: 1440,
-			height: 900,
-			deviceScaleFactor: 1,
-			mobile: false
-		});
 
-		var ready = false;
-		for (var i = 0; i < 120; i++) {
-			var check = await cdpSend(ws, "Runtime.evaluate", {
-				expression: "document.body && document.body.classList.contains('pdf-ready')",
-				returnByValue: true
-			});
-			if (check && check.result && check.result.value) {
-				ready = true;
-				break;
-			}
-			await sleep(500);
-		}
-
-		if (!ready) {
-			throw new Error("La pagina no llego al estado pdf-ready a tiempo.");
+		if (!(await waitForClass(ws, "pdf-ready-main", 120))) {
+			throw new Error("La pagina no llego al estado pdf-ready-main a tiempo.");
 		}
 
 		await sleep(1200);
 
-		var metrics = await cdpSend(ws, "Page.getLayoutMetrics");
-		var content = metrics.contentSize || metrics.cssContentSize;
-		var width = Math.ceil(content.width);
-		var height = Math.ceil(content.height);
+		var mainShot = await captureFullPage(ws);
+		fs.writeFileSync(pngMain, Buffer.from(mainShot.data, "base64"));
 
-		await cdpSend(ws, "Emulation.setDeviceMetricsOverride", {
-			width: width,
-			height: height,
-			deviceScaleFactor: 1,
-			mobile: false
+		await cdpSend(ws, "Runtime.evaluate", {
+			expression: "window.__setupPdfProposalScratch && window.__setupPdfProposalScratch()",
+			returnByValue: true
 		});
 
-		await sleep(800);
+		if (!(await waitForClass(ws, "pdf-ready-proposal", 40))) {
+			throw new Error("La propuesta raspa y gana no quedo lista a tiempo.");
+		}
 
-		var shot = await cdpSend(ws, "Page.captureScreenshot", {
-			format: "png",
-			fromSurface: true,
-			captureBeyondViewport: true
-		});
+		await sleep(1000);
 
-		fs.writeFileSync(pngOut, Buffer.from(shot.data, "base64"));
+		var proposalShot = await captureViewport(ws, 1440, 900);
+		fs.writeFileSync(pngProposal, Buffer.from(proposalShot.data, "base64"));
+
 		ws.close();
 
-		await buildPdfFromPng(pngOut, pdfOut, width, height);
+		await buildMultiPagePdf(mainShot, proposalShot, pdfOut);
 
-		console.log("PNG: " + pngOut);
+		console.log("Pagina 1 (carta + corazones): " + pngMain);
+		console.log("Pagina 2 (propuesta raspa): " + pngProposal);
 		console.log("PDF: " + pdfOut);
 	} finally {
 		chromeProc.kill();
@@ -215,15 +272,23 @@ async function captureScreenshot() {
 	}
 }
 
-function buildPdfFromPng(pngPath, pdfPath, width, height) {
+function buildMultiPagePdf(mainShot, proposalShot, pdfPath) {
 	return new Promise(function (resolve, reject) {
 		var htmlPath = path.join(root, "tools", "_captura-print.html");
-		var pngName = path.basename(pngPath).replace(/\\/g, "/");
+		var mainName = path.basename(pngMain).replace(/\\/g, "/");
+		var proposalName = path.basename(pngProposal).replace(/\\/g, "/");
 		var html = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>" +
-			"@page{margin:0;size:" + width + "px " + height + "px;}" +
-			"html,body{margin:0;padding:0;width:" + width + "px;height:" + height + "px;}" +
-			"img{display:block;width:" + width + "px;height:" + height + "px;}" +
-			"</style></head><body><img src=\"../" + pngName + "\" alt=\"Carta completa\" /></body></html>";
+			"@page{margin:0;}" +
+			".sheet{page-break-after:always;overflow:hidden;}" +
+			".sheet:last-child{page-break-after:auto;}" +
+			"img{display:block;}" +
+			"</style></head><body>" +
+			"<div class=\"sheet\" style=\"width:" + mainShot.width + "px;height:" + mainShot.height + "px;\">" +
+			"<img src=\"../" + mainName + "\" width=\"" + mainShot.width + "\" height=\"" + mainShot.height + "\" alt=\"Carta\" />" +
+			"</div>" +
+			"<div class=\"sheet\" style=\"width:" + proposalShot.width + "px;height:" + proposalShot.height + "px;\">" +
+			"<img src=\"../" + proposalName + "\" width=\"" + proposalShot.width + "\" height=\"" + proposalShot.height + "\" alt=\"Propuesta\" />" +
+			"</div></body></html>";
 
 		fs.writeFileSync(htmlPath, html);
 

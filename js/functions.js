@@ -1822,6 +1822,133 @@ function initBouncingHeart() {
 		requestAnimationFrame(tick);
 	}
 
+	window.__setupPdfMainHearts = function () {
+		var i;
+
+		arena.style.display = "block";
+		arena.classList.add("is-finale");
+
+		spawnDiego();
+
+		if (biankaHeart) {
+			biankaHeart.x = window.innerWidth * 0.28;
+			biankaHeart.y = window.innerHeight * 0.12;
+			biankaHeart.mode = "hold";
+			biankaHeart.el.classList.add("is-born");
+			applyHeart(biankaHeart);
+		}
+
+		if (diegoHeart) {
+			diegoHeart.x = window.innerWidth * 0.62;
+			diegoHeart.y = window.innerHeight * 0.16;
+			diegoHeart.mode = "hold";
+			diegoHeart.el.classList.add("is-born");
+			applyHeart(diegoHeart);
+		}
+
+		for (i = 0; i < 42; i++) {
+			createHeart({
+				x: rand(24, window.innerWidth - 24),
+				y: rand(60, window.innerHeight - 24),
+				size: rand(12, 34),
+				color: pickColor(),
+				vx: rand(-0.4, 0.4),
+				vy: rand(-0.4, 0.4)
+			});
+			hearts[hearts.length - 1].mode = "hold";
+			applyHeart(hearts[hearts.length - 1]);
+		}
+
+		finalePhase = "hold";
+	};
+
+	window.__setupPdfProposalScratch = function () {
+		var mainDiv = document.getElementById("mainDiv");
+		var topBar = document.getElementById("topBar");
+		var pageDoodles = document.getElementById("pageDoodles");
+		var box = document.getElementById("heartRevealBox");
+		var canvas = document.getElementById("heartRevealScratch");
+		var ctx;
+		var size = getRevealBoxSize();
+		var w;
+		var h;
+		var n;
+		var cx;
+		var cy;
+		var i;
+
+		if (mainDiv) {
+			mainDiv.style.display = "none";
+		}
+		if (topBar) {
+			topBar.style.display = "none";
+		}
+		if (pageDoodles) {
+			pageDoodles.style.display = "none";
+		}
+
+		arena.style.display = "block";
+		arena.classList.add("is-finale", "is-scratching", "is-formed");
+
+		startFormBox();
+		formStart = Date.now() - FORM_DURATION - 400;
+
+		for (i = 0; i < hearts.length; i++) {
+			if (hearts[i].mode === "form" || hearts[i].mode === "hold") {
+				hearts[i].x = hearts[i].targetX;
+				hearts[i].y = hearts[i].targetY;
+				hearts[i].size = hearts[i].targetSize || hearts[i].size;
+				hearts[i].mode = "hold";
+				hearts[i].el.classList.add("is-forming", "is-born");
+				applyHeart(hearts[i]);
+			}
+		}
+
+		revealBoxRect.cx = window.innerWidth / 2;
+		revealBoxRect.cy = window.innerHeight / 2;
+		revealBoxRect.w = size.w;
+		revealBoxRect.h = size.h;
+
+		if (box) {
+			box.style.width = size.w + "px";
+			box.style.height = size.h + "px";
+			box.hidden = false;
+			box.classList.add("is-visible");
+			arena.appendChild(box);
+		}
+
+		w = size.w;
+		h = size.h;
+		ctx = prepScratchSurface(w, h);
+
+		if (ctx) {
+			cx = w / 2;
+			cy = h / 2;
+			ctx.globalCompositeOperation = "destination-out";
+			ctx.globalAlpha = 1;
+
+			for (n = 0; n < 52; n++) {
+				ctx.beginPath();
+				ctx.arc(
+					cx + rand(-w * 0.34, w * 0.34),
+					cy + rand(-h * 0.28, h * 0.28),
+					rand(24, 46),
+					0,
+					Math.PI * 2
+				);
+				ctx.fill();
+			}
+
+			ctx.beginPath();
+			ctx.ellipse(cx, cy, w * 0.36, h * 0.26, -0.28, 0, Math.PI * 2);
+			ctx.fill();
+			ctx.globalCompositeOperation = "source-over";
+			ctx.globalAlpha = 1;
+		}
+
+		document.body.classList.add("pdf-ready-proposal");
+	};
+
 	window.addEventListener("resize", function () {
 		if (finalePhase === "hold" || finalePhase === "form" || finalePhase === "reveal") {
 			return;
@@ -2002,7 +2129,12 @@ function captureReadyForPdf() {
 	letterRevealStarted = true;
 	revealAllLetter();
 	revealAllPhotosNow();
-	document.body.classList.add("pdf-ready");
+
+	if (window.__setupPdfMainHearts) {
+		window.__setupPdfMainHearts();
+	}
+
+	document.body.classList.add("pdf-ready-main");
 }
 
 function initPdfExportMode() {
@@ -2012,11 +2144,6 @@ function initPdfExportMode() {
 
 	window.__pdfCaptureMode = true;
 	document.body.classList.add("modo-pdf");
-
-	var arena = document.getElementById("bouncingHeartsArena");
-	if (arena) {
-		arena.style.display = "none";
-	}
 }
 
 function initPage(startDate, imageUrls) {
@@ -2029,9 +2156,7 @@ function initPage(startDate, imageUrls) {
 	}, 500);
 
 	prepareLetterCardWaiting();
-	if (!pdfMode) {
-		initBouncingHeart();
-	}
+	initBouncingHeart();
 	initStoryPhotos();
 	startPuzzleHeart(imageUrls);
 	initPdfExportMode();

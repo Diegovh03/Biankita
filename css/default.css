@@ -1351,3 +1351,45 @@ body.letter-locked #code .line.visible {
 		gap: 8px 10px;
 	}
 }
+
+body.modo-pdf .bouncing-hearts-arena,
+body.modo-pdf #pageDoodles {
+	display: none !important;
+}
+
+@media print {
+	.bouncing-hearts-arena,
+	#pageDoodles,
+	.letter-card__reveal-all,
+	.bottom-clouds {
+		display: none !important;
+	}
+
+	body {
+		background: #fffdf0 !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+
+	#mainDiv {
+		padding-bottom: 24px;
+	}
+
+	.main-row {
+		flex-wrap: wrap !important;
+	}
+
+	#code,
+	.heart-column {
+		flex: 1 1 100% !important;
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+
+	#code .line,
+	.letter-card__inner,
+	.photo-moment {
+		break-inside: avoid;
+		page-break-inside: avoid;
+	}
+}

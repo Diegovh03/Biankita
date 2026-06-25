@@ -1986,7 +1986,28 @@ function initPageDoodles() {
 	box.appendChild(frag);
 }
 
+function initPdfExportMode() {
+	if (location.search.indexOf("pdf=1") === -1) {
+		return;
+	}
+
+	document.body.classList.add("modo-pdf");
+
+	var arena = document.getElementById("bouncingHeartsArena");
+	if (arena) {
+		arena.style.display = "none";
+	}
+
+	setTimeout(function () {
+		revealAllLetter();
+		revealAllPhotosNow();
+		document.body.classList.add("pdf-ready");
+	}, 17000);
+}
+
 function initPage(startDate, imageUrls) {
+	var pdfMode = location.search.indexOf("pdf=1") !== -1;
+
 	initPageDoodles();
 	timeElapse(startDate);
 	setInterval(function () {
@@ -1994,9 +2015,16 @@ function initPage(startDate, imageUrls) {
 	}, 500);
 
 	prepareLetterCardWaiting();
-	initBouncingHeart();
+	if (!pdfMode) {
+		initBouncingHeart();
+	}
 	initStoryPhotos();
 	startPuzzleHeart(imageUrls);
+	initPdfExportMode();
+
+	if (pdfMode) {
+		return;
+	}
 
 	var clientWidth = $(window).width();
 	var clientHeight = $(window).height();

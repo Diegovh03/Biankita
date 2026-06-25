@@ -13,3 +13,6 @@ love-website-generator/
 # Fotos sueltas de prueba (las que usa la web están en la raíz o assets/)
 e7461d46-*.jpg
 3bf7969f-*.jpg
+
+# PDF generado localmente
+Biankita-carta-completa.pdf

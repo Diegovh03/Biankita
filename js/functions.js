@@ -541,6 +541,11 @@ function scheduleLetterRevealWhenHeartFinishes(puzzleDurationMs) {
 			return;
 		}
 
+		if (window.__pdfCaptureMode) {
+			captureReadyForPdf();
+			return;
+		}
+
 		beginLetterReveal();
 	}
 
@@ -1986,23 +1991,32 @@ function initPageDoodles() {
 	box.appendChild(frag);
 }
 
+function captureReadyForPdf() {
+	document.body.classList.remove("letter-locked");
+
+	var card = document.querySelector(".letter-card");
+	if (card) {
+		card.classList.remove("is-waiting-heart");
+	}
+
+	letterRevealStarted = true;
+	revealAllLetter();
+	revealAllPhotosNow();
+	document.body.classList.add("pdf-ready");
+}
+
 function initPdfExportMode() {
 	if (location.search.indexOf("pdf=1") === -1) {
 		return;
 	}
 
+	window.__pdfCaptureMode = true;
 	document.body.classList.add("modo-pdf");
 
 	var arena = document.getElementById("bouncingHeartsArena");
 	if (arena) {
 		arena.style.display = "none";
 	}
-
-	setTimeout(function () {
-		revealAllLetter();
-		revealAllPhotosNow();
-		document.body.classList.add("pdf-ready");
-	}, 17000);
 }
 
 function initPage(startDate, imageUrls) {
